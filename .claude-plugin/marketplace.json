@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "lps-marketplace",
+  "owner": {
+    "name": "kyryl-shtefiienko"
+  },
+  "metadata": {
+    "description": "Personal shared and Claude-specific skills from LPS."
+  },
+  "plugins": [
+    {
+      "name": "lps",
+      "description": "Personal shared and Claude-specific skills from LPS.",
+      "source": "./",
+      "skills": [
+        "./common",
+        "./claude"
+      ],
+      "strict": false
+    }
+  ]
+}
