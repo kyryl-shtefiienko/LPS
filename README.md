@@ -6,18 +6,25 @@ LPS keeps personal assistant skills in one versioned repository so they can be r
 
 ## Contents
 
-### ChatGPT Codex
+### Common skills
+
+These skills work with both ChatGPT Codex and Claude.
 
 | Skill | Purpose |
 | --- | --- |
-| [`adhd-mode`](chatgpt/adhd-mode/) | Generates ideas through separate cognitive frames, then scores, clusters, and deepens the strongest options. |
-| [`chatgpt-effort-advisor`](chatgpt/chatgpt-effort-advisor/) | Recommends a ChatGPT model and thinking level based on task complexity and cost. |
-| [`github-repo-standards`](chatgpt/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
-| [`headroom`](chatgpt/headroom/) | Configures and troubleshoots Headroom context compression for Codex, Claude Code, MCP, proxy, Python, and TypeScript workflows. |
-| [`matsci-python-antipatterns`](chatgpt/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
-| [`rigorous-pytest-suite`](chatgpt/rigorous-pytest-suite/) | Builds disciplined pytest suites, fixtures, tooling, and matching CI for Python projects. |
+| [`adhd-mode`](common/adhd-mode/) | Generates ideas through separate cognitive frames, then scores, clusters, and deepens the strongest options. |
+| [`github-repo-standards`](common/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
+| [`headroom`](common/headroom/) | Configures and troubleshoots Headroom context compression for Codex, Claude Code, MCP, proxy, Python, and TypeScript workflows. |
+| [`matsci-python-antipatterns`](common/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
+| [`rigorous-pytest-suite`](common/rigorous-pytest-suite/) | Builds disciplined pytest suites, fixtures, tooling, and matching CI for Python projects. |
 
-### Claude
+### ChatGPT Codex only
+
+| Skill | Purpose |
+| --- | --- |
+| [`chatgpt-effort-advisor`](chatgpt/chatgpt-effort-advisor/) | Recommends a ChatGPT model and thinking level based on task complexity and cost. |
+
+### Claude only
 
 | Skill | Purpose |
 | --- | --- |
@@ -38,14 +45,16 @@ Install all ChatGPT Codex skills on Windows:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
+Copy-Item -Recurse -Force .\common\* "$env:USERPROFILE\.codex\skills\"
 Copy-Item -Recurse -Force .\chatgpt\* "$env:USERPROFILE\.codex\skills\"
 ```
 
-Install the Claude skill on Windows:
+Install all Claude skills on Windows:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
-Copy-Item -Recurse -Force .\claude\effort-advisor "$env:USERPROFILE\.claude\skills\"
+Copy-Item -Recurse -Force .\common\* "$env:USERPROFILE\.claude\skills\"
+Copy-Item -Recurse -Force .\claude\* "$env:USERPROFILE\.claude\skills\"
 ```
 
 Restart the relevant app or begin a new conversation after installation so its skill catalog refreshes.
@@ -58,7 +67,7 @@ For example, ask ChatGPT Codex to “set up rigorous pytest coverage” to use `
 
 ## Add or update a skill
 
-1. Put each ChatGPT Codex skill under `chatgpt/<skill-name>/` and each Claude skill under `claude/<skill-name>/`.
+1. Put cross-platform skills under `common/<skill-name>/`, ChatGPT Codex-only skills under `chatgpt/<skill-name>/`, and Claude-only skills under `claude/<skill-name>/`.
 2. Keep `SKILL.md` at the root of the skill directory.
 3. Store only resources referenced by that skill, such as `references/`, `assets/`, `scripts/`, or `examples.md`.
 4. Update the contents table above when adding or removing a skill.

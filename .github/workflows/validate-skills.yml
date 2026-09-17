@@ -17,7 +17,7 @@ jobs:
       - name: Validate skill packages
         shell: pwsh
         run: |
-          $skillFiles = @(Get-ChildItem -Path chatgpt, claude -Recurse -File -Filter SKILL.md)
+          $skillFiles = @(Get-ChildItem -Path common, chatgpt, claude -Recurse -File -Filter SKILL.md)
           if ($skillFiles.Count -eq 0) {
             throw "No SKILL.md files found."
           }
