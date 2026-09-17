@@ -2,7 +2,7 @@
 
 > A private collection of reusable skills for ChatGPT Codex and Claude that turns recurring workflows into repeatable instructions.
 
-LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. The collection covers software testing, repository quality, materials-science conventions, divergent ideation, and model-effort selection.
+LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. The collection covers software testing, repository quality, materials-science conventions, divergent ideation, context compression, and model-effort selection.
 
 ## Contents
 
@@ -13,6 +13,7 @@ LPS keeps personal assistant skills in one versioned repository so they can be r
 | [`adhd-mode`](chatgpt/adhd-mode/) | Generates ideas through separate cognitive frames, then scores, clusters, and deepens the strongest options. |
 | [`chatgpt-effort-advisor`](chatgpt/chatgpt-effort-advisor/) | Recommends a ChatGPT model and thinking level based on task complexity and cost. |
 | [`github-repo-standards`](chatgpt/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
+| [`headroom`](chatgpt/headroom/) | Configures and troubleshoots Headroom context compression for Codex, Claude Code, MCP, proxy, Python, and TypeScript workflows. |
 | [`matsci-python-antipatterns`](chatgpt/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
 | [`rigorous-pytest-suite`](chatgpt/rigorous-pytest-suite/) | Builds disciplined pytest suites, fixtures, tooling, and matching CI for Python projects. |
 
