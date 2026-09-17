@@ -1,0 +1,4 @@
+interface:
+  display_name: "ChatGPT Effort Advisor"
+  short_description: "Match ChatGPT models and thinking levels to tasks"
+  default_prompt: "Use $chatgpt-effort-advisor to recommend a ChatGPT model and thinking level for my task."

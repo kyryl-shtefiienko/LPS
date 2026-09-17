@@ -1,0 +1,35 @@
+repos:
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.12.7
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.5
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  # Swap for the official ty pre-commit hook once Astral ships one; this local/uvx
+  # hook is the safe fallback in the meantime.
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty type check
+        language: system
+        entry: uvx ty check
+        types_or: [python, pyi]
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict

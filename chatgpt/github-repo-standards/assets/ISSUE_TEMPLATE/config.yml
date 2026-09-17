@@ -1,0 +1,9 @@
+# Setting this to false keeps the "blank issue" option alongside the forms
+# above. Set to true to force everyone through one of the structured forms.
+blank_issues_enabled: true
+
+# Optional: point people at other channels before they open an issue.
+# contact_links:
+#   - name: Ask a question
+#     url: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/discussions
+#     about: Please ask usage questions here rather than as a bug report.

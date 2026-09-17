@@ -1,0 +1,27 @@
+# Release automation — builds and publishes a GitHub Release whenever a
+# version tag (e.g. v1.2.3) is pushed. Add build/package/publish steps that
+# match the project (e.g. building a wheel and uploading to PyPI, or
+# `npm publish`). Only wire this up once the project is actually cutting
+# tagged releases — see SKILL.md Step 7.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # TODO: build the release artifact(s) here.
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          # files: dist/*   # TODO: attach built artifacts if applicable

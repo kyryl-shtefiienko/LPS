@@ -1,0 +1,22 @@
+# CITATION.cff — Citation File Format (https://citation-file-format.github.io/)
+# GitHub natively recognizes this file and shows a "Cite this repository"
+# button in the sidebar. Delete this comment block once filled in.
+# Never fabricate the doi/version/date fields — leave them as TODO until a
+# real Zenodo release exists (connect the repo at https://zenodo.org/account/settings/github/,
+# then push a GitHub Release to mint a versioned DOI automatically).
+
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: {{PROJECT_NAME}}
+version: "TODO: e.g. 0.1.0"
+date-released: "TODO: YYYY-MM-DD"
+license: {{LICENSE_NAME}}
+repository-code: "https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}"
+doi: "TODO: 10.5281/zenodo.NNNNNNN"
+url: "TODO: https://doi.org/10.5281/zenodo.NNNNNNN"
+abstract: "{{ONE_LINE_DESCRIPTION}}"
+authors:
+  - family-names: "TODO: last name"
+    given-names: "TODO: first name"
+    email: TODO@example.com
+    orcid: "TODO: https://orcid.org/XXXX-XXXX-XXXX-XXXX"

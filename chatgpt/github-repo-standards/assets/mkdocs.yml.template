@@ -1,0 +1,99 @@
+# mkdocs.yml — research-software profile (github-repo-standards skill).
+# Requires the "docs" optional-dependency group in pyproject.toml:
+#   [project.optional-dependencies]
+#   docs = ["mkdocs-material", "mkdocstrings[python]"]
+# Build locally with `mkdocs serve`; deploy to GitHub Pages with
+# `mkdocs gh-deploy` or a docs-deploy workflow that runs the same command on
+# push to main. Delete this comment block once configured; fill in the nav
+# section to match this project's actual docs pages — the placeholder nav
+# below is a starting skeleton, not a required structure.
+
+site_name: {{PROJECT_NAME}}
+site_description: {{ONE_LINE_DESCRIPTION}}
+site_author: {{AUTHOR}}
+site_url: https://{{GITHUB_USER}}.github.io/{{REPO_NAME}}/
+repo_url: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}
+repo_name: {{GITHUB_USER}}/{{REPO_NAME}}
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.footer
+    - navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - toc.follow
+
+# MathJax support — keep this if the docs contain LaTeX equations (common for
+# scientific/mathematical content), otherwise delete both lines below.
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_signature_annotations: true
+            show_source: false
+            members_order: source
+            merge_init_into_class: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - def_list
+  - tables
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+# Starting skeleton — replace with this project's real pages. The
+# Usage / Theory / API Reference split is the key pattern worth keeping:
+# practical how-to stays separate from scientific background, which stays
+# separate from auto-generated API docs.
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quickstart: quickstart.md
+  - Usage:
+      - usage/index.md
+  - Theory:
+      - theory/index.md
+  - API Reference:
+      - api/index.md

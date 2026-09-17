@@ -1,0 +1,38 @@
+name: Validate skills
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate skill packages
+        shell: pwsh
+        run: |
+          $skillFiles = @(Get-ChildItem -Path chatgpt, claude -Recurse -File -Filter SKILL.md)
+          if ($skillFiles.Count -eq 0) {
+            throw "No SKILL.md files found."
+          }
+
+          foreach ($skillFile in $skillFiles) {
+            $content = Get-Content -LiteralPath $skillFile.FullName -Raw
+            if ($content -notmatch '(?s)^---\s*.*?\s*---') {
+              throw "$($skillFile.FullName) has no YAML frontmatter."
+            }
+            if ($content -notmatch '(?m)^name:\s*\S+') {
+              throw "$($skillFile.FullName) has no skill name."
+            }
+            if ($content -notmatch '(?m)^description:\s*\S+') {
+              throw "$($skillFile.FullName) has no skill description."
+            }
+          }
+
+          Write-Host "Validated $($skillFiles.Count) skill packages."

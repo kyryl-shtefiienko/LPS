@@ -1,0 +1,32 @@
+# Marks issues/PRs with no activity as stale, then closes them after a further
+# period of inactivity. Tune the day counts and exempt labels to the project's
+# actual triage cadence — this is meant to reduce backlog noise on active
+# projects, not to rush real bug reports. Only add this once there's enough
+# issue volume for staleness to be a problem.
+name: Stale
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # daily, 03:00 UTC
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-stale: 60
+          days-before-close: 14
+          stale-issue-label: "stale"
+          stale-pr-label: "stale"
+          exempt-issue-labels: "pinned,security"
+          exempt-pr-labels: "pinned"
+          stale-issue-message: >
+            This issue has had no activity for 60 days and will be closed in 14 days
+            if there's no further activity. If it's still relevant, a comment will keep it open.
+          stale-pr-message: >
+            This pull request has had no activity for 60 days and will be closed in 14 days
+            if there's no further activity.

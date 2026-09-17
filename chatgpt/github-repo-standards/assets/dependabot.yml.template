@@ -1,0 +1,19 @@
+# dependabot.yml — github-repo-standards skill.
+# Copy to .github/dependabot.yml and set "package-ecosystem" to match this
+# project (pip, npm, cargo, gomod, maven, github-actions, etc.) — a repo
+# commonly wants at least two entries: one for its language's package
+# manager, and one for "github-actions" to keep the workflow files above
+# up to date too. See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "TODO: pip | npm | cargo | gomod | maven | composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

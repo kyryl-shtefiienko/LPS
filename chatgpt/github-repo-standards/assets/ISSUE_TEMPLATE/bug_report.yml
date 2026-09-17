@@ -1,0 +1,49 @@
+name: Bug report
+description: Report something that isn't working as expected in {{PROJECT_NAME}}.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill in as much of this as you can — it saves a round-trip of "can you provide more details?".
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The minimal steps needed to reproduce this, ideally with a code snippet or command.
+      placeholder: |
+        1. Run '...'
+        2. With input '...'
+        3. See error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which version are you running? (release tag, commit hash, or `x --version` output)
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, runtime version (e.g. Python/Node version), and anything else relevant.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Paste any relevant error output. This will be formatted as code automatically.
+      render: shell
+    validations:
+      required: false

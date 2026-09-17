@@ -1,0 +1,15 @@
+# CODEOWNERS — github-repo-standards skill.
+#
+# Each line is a file/glob pattern followed by the GitHub usernames or teams
+# that own it. Listed owners are automatically requested for review on
+# matching pull requests. Order matters: later matching lines take
+# precedence over earlier ones.
+#
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# for the full syntax.
+
+# Default owner for everything not matched below.
+# * {{GITHUB_USER}}
+
+# Example: a subdirectory with a different owner.
+# /docs/  @some-other-user

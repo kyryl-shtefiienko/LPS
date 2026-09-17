@@ -1,0 +1,49 @@
+# CI for a Python project — lint + test on every push and pull request.
+# Adjust the Python versions, lint command, and test command to match the
+# project. If there's no linter configured yet, remove the lint job rather
+# than leaving a step that fails on everything.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # TODO: install the project + dev/lint dependencies, e.g.:
+          # pip install -e ".[dev]"
+      - name: Lint
+        run: |
+          # TODO: e.g. `ruff check .` or `flake8 .`
+          echo "TODO: add lint command"
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # TODO: install the project + test dependencies, e.g.:
+          # pip install -e ".[test]"
+      - name: Run tests
+        run: |
+          # TODO: e.g. `pytest`
+          echo "TODO: add test command"

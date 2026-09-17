@@ -1,0 +1,20 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local and generated files
+.env
+.env.*
+*.log
+*.tmp
+*.zip
+*.skill
+__pycache__/
+*.py[cod]

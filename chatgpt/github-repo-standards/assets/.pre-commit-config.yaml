@@ -1,0 +1,44 @@
+# .pre-commit-config.yaml — research-software profile (github-repo-standards skill).
+# Works with either `pre-commit run` or the faster Rust reimplementation `prek run`
+# (same config format, add `prek` to your dev dependency group if you want it).
+# Pin the `rev:` fields to current releases before first use — check
+# https://github.com/astral-sh/uv-pre-commit/releases and
+# https://github.com/astral-sh/ruff-pre-commit/releases and
+# https://github.com/pre-commit/pre-commit-hooks/releases for the latest tags.
+
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: "TODO: pin to latest release tag"
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "TODO: pin to latest release tag"
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  # Astral had not shipped an official `ty` pre-commit hook as of this
+  # template's writing (tracked in astral-sh/ty#269). Check whether
+  # astral-sh/ty-pre-commit exists yet and switch to it if so; until then,
+  # this local/uvx hook is the safest option.
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty type check
+        language: system
+        entry: uvx ty check
+        types_or: [python, pyi]
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "TODO: pin to latest release tag"
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict

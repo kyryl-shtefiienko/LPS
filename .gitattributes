@@ -1,0 +1,22 @@
+# .gitattributes — normalizes line endings and marks generated/binary files
+# so they don't clutter diffs or trigger merge conflicts on line endings.
+
+# Normalize all text files to LF in the repo; let git handle checkout
+# conversion per the user's platform.
+* text=auto eol=lf
+
+# Common binary types — never diff, never line-ending-convert.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+
+# Mark generated/vendored files so they're collapsed in GitHub diffs.
+# Uncomment and adjust for this project's actual generated files, e.g.:
+# package-lock.json -diff linguist-generated=true
+# dist/** linguist-generated=true
