@@ -26,6 +26,7 @@ These skills are shared across assistants; individual workflows may require tool
 | --- | --- |
 | [`chatgpt-effort-advisor`](chatgpt/chatgpt-effort-advisor/) | Recommends a ChatGPT model and thinking level based on task complexity and cost. |
 | [`checkpoint-chatgpt`](chatgpt/checkpoint-chatgpt/) | Preserves goals, decisions, verified results, files, and next steps across conversations, with downloadable-file and text-only handoff options. |
+| [`lps-add-skill-chatgpt`](chatgpt/lps-add-skill-chatgpt/) | Creates, imports, or updates LPS skills from ChatGPT / Codex, with repository-tool and draft-only workflows and authorized publishing. |
 
 ### Claude only
 
@@ -33,6 +34,7 @@ These skills are shared across assistants; individual workflows may require tool
 | --- | --- |
 | [`checkpoint`](claude/checkpoint/) | Original Claude checkpoint workflow for saving progress and resuming long tasks in a new conversation or model. |
 | [`effort-advisor`](claude/effort-advisor/) | Recommends a Claude model and effort level based on the complexity of the current task. |
+| [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
 
 Each skill is self-contained. Its `SKILL.md` defines when it should run and how the assistant should apply it; supporting references, examples, scripts, and assets stay beside that file.
 
@@ -86,6 +88,8 @@ Examples for the new workflows:
 To resume, attach the checkpoint and required supporting files, then say: “Continue from the attached checkpoint with the first unfinished step.” For the ChatGPT checkpoint in a regular chat, attach its `SKILL.md` and explicitly ask the assistant to use that workflow; this supplies instructions for that conversation rather than installing it globally.
 
 ## Add or update a skill
+
+Use `lps-add-skill` in Claude or `lps-add-skill-chatgpt` in ChatGPT / Codex to handle this workflow. For example: "Add this skill to LPS, update the README, and push the changes." Without repository access, either version prepares files for handoff and reports what still needs to be applied.
 
 1. Put cross-platform skills under `common/<skill-name>/`, ChatGPT / Codex skills under `chatgpt/<skill-name>/`, and Claude-only skills under `claude/<skill-name>/`.
 2. Keep `SKILL.md` at the root of the skill directory.
