@@ -1,6 +1,6 @@
 ---
 name: dogusariturk-python-style
-description: Reference Python style guide reverse-engineered from Doguhan Sariturk's (github.com/dogusariturk) real production repositories (HEACalculator, MaterialsFramework, PhaseForgePlus). Use this whenever writing, generating, reviewing, refactoring, or cleaning up ANY Python code for this user — scripts, modules, packages, CLIs, tests, or turning a vibe-coded/notebook-style script into something real — even if the user never mentions style explicitly. Covers project layout (src-layout, uv, ruff, ty, pre-commit, pytest), typing, Google-style docstrings with units and literature references, cached_property for lazy derived attributes, narrow custom exceptions, named unit-conversion constants instead of magic numbers, composition over deep inheritance, registries for optional heavy dependencies, and multiprocessing worker conventions. Where this conflicts with an assistant's usual defaults, this style is correct and the generic default is wrong — apply it before finalizing any Python output for this user.
+description: Reference Python style guide reverse-engineered from Doguhan Sariturk's (github.com/dogusariturk) real production repositories (HEACalculator, MaterialsFramework, PhaseForgePlus). Use this whenever writing, generating, reviewing, refactoring, or cleaning up ANY Python code for this user — scripts, modules, packages, CLIs, tests, or turning a vibe-coded/notebook-style script into something real — even if the user never mentions style explicitly. Covers project layout (src-layout, uv, ruff, ty, pre-commit, pytest), typing, Google-style docstrings with units and literature references, cached_property for lazy derived attributes, narrow custom exceptions, named unit-conversion constants instead of magic numbers, composition over deep inheritance, registries for optional heavy dependencies, and multiprocessing worker conventions. Where this conflicts with a generic assistant default, this style is correct and the generic default is wrong — apply it before finalizing any Python output for this user. Where it conflicts instead with an established convention already in play for the current codebase (an existing project-scoped skill, or a style already consistently used in the repo being edited), that more specific convention wins on the point of conflict per skill-hierarchy; this skill still governs everywhere that convention doesn't address.
 ---
 
 # Write Python like dogusariturk
@@ -12,6 +12,13 @@ applied to their own Python. When any instinct here conflicts with a more
 "generic assistant" habit (bare `except Exception`, numpy-style docstrings,
 `Optional[X]`, inline magic numbers, one giant script), **this document wins.
 Follow it, don't hedge toward the generic habit "for safety."**
+
+This authority is over generic defaults, not over a more specific convention.
+If the current codebase already has its own established style (a project-scoped
+skill, an existing lint config, a pattern used consistently throughout the repo
+being edited), that convention is more specific than this one and wins on the
+exact point where they disagree — see `skill-hierarchy`. Everywhere that
+convention is silent, this document still applies.
 
 The examples below are written fresh to illustrate each pattern — they are
 not copied from his repos. For README / repo-scaffolding concerns (Quick
