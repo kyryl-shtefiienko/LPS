@@ -2,7 +2,7 @@
 
 > A private collection of reusable skills for ChatGPT, Codex, and Claude that turns recurring workflows into repeatable instructions.
 
-LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. The collection covers software testing, repository quality, materials-science conventions, divergent ideation, context compression, model-effort selection, checkpoint handoffs, publication research, and plotting on request.
+LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. It also keeps third-party skills in a separate, provenance-tracked collection for installation tools. The personal collection covers software testing, repository quality, materials-science conventions, divergent ideation, context compression, model-effort selection, checkpoint handoffs, publication research, and plotting on request.
 
 ## Contents
 
@@ -35,6 +35,20 @@ These skills are shared across assistants; individual workflows may require tool
 | [`checkpoint`](claude/checkpoint/) | Original Claude checkpoint workflow for saving progress and resuming long tasks in a new conversation or model. |
 | [`effort-advisor`](claude/effort-advisor/) | Recommends a Claude model and effort level based on the complexity of the current task. |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
+
+### Third-party skills
+
+Third-party skills are stored under [`external/`](external/) and excluded from the personal-skill bulk-install commands. Each entry retains its upstream directory structure, source URL, exact commit, and available license or notice files.
+
+| Source collection | Skill packages |
+| --- | ---: |
+| [AI behavior-fix catalog](external/catalogs/ai-behavior-fix-skills.md) | 76 |
+| [Materials-science Python catalog](external/catalogs/materials-science-python-skills-direct.md) | 80 |
+| [RTK](external/sources/rtk-ai/rtk/) | 12 |
+| [Ponytail](external/sources/dietrichgebert/ponytail/) | 6 |
+| [Microsoft Data Formulator](external/sources/microsoft/data-formulator/) | 3 |
+
+The two catalogs overlap, so their counts should not be added together. The external collection currently contains 128 unique vendored skill packages from 17 upstream repositories. See the [external manifest](external/MANIFEST.csv) and [source inventory](external/README.md) for exact paths and revisions.
 
 Each skill is self-contained. Its `SKILL.md` defines when it should run and how the assistant should apply it; supporting references, examples, scripts, and assets stay beside that file.
 
