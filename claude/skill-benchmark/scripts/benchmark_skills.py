@@ -37,7 +37,7 @@ WEIGHTS = {
 }
 assert sum(WEIGHTS.values()) == 100
 
-TRIGGER_PHRASES = ("use when", "use whenever", "trigger", "triggers on", "use if", "use this skill")
+TRIGGER_PATTERN = re.compile(r"\buse\b(?:\s+\w+){0,3}\s+(when|whenever|if|for)\b|\btrigger", re.IGNORECASE)
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "for", "in", "on", "with", "is",
     "are", "this", "that", "it", "as", "by", "be", "when", "use", "skill",
@@ -138,7 +138,7 @@ def score_description(desc: str) -> tuple[float, list[str]]:
     else:
         issues.append(f"description is {words} words - costs context on every turn")
         score += 8
-    if any(p in desc.lower() for p in TRIGGER_PHRASES):
+    if TRIGGER_PATTERN.search(desc):
         score += 10
     else:
         issues.append("no explicit 'use when / triggers on' language")
