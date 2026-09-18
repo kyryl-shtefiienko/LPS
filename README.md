@@ -13,6 +13,7 @@ These skills are shared across assistants; individual workflows may require tool
 | Skill | Purpose |
 | --- | --- |
 | [`adhd-mode`](common/adhd-mode/) | Generates ideas through separate cognitive frames, then scores, clusters, and deepens the strongest options. |
+| [`dogusariturk-python-style`](common/dogusariturk-python-style/) | Applies Doguhan Sariturk's production Python conventions when writing, reviewing, refactoring, or structuring Python code. |
 | [`github-repo-standards`](common/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
 | [`headroom`](common/headroom/) | Configures and troubleshoots Headroom context compression for Codex, Claude Code, MCP, proxy, Python, and TypeScript workflows. |
 | [`matsci-python-antipatterns`](common/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
