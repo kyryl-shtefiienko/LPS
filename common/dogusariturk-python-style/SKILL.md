@@ -1,6 +1,6 @@
 ---
 name: dogusariturk-python-style
-description: Reference Python style guide reverse-engineered from Doguhan Sariturk's (github.com/dogusariturk) real production repositories (HEACalculator, MaterialsFramework, PhaseForgePlus). Use this whenever writing, generating, reviewing, refactoring, or cleaning up ANY Python code for this user — scripts, modules, packages, CLIs, tests, or turning a vibe-coded/notebook-style script into something real — even if the user never mentions style explicitly. Covers project layout (src-layout, uv, ruff, ty, pre-commit, pytest), typing, Google-style docstrings with units and literature references, cached_property for lazy derived attributes, narrow custom exceptions, named unit-conversion constants instead of magic numbers, composition over deep inheritance, registries for optional heavy dependencies, and multiprocessing worker conventions. Where this conflicts with a generic assistant default, this style is correct and the generic default is wrong — apply it before finalizing any Python output for this user. Where it conflicts instead with an established convention already in play for the current codebase (an existing project-scoped skill, or a style already consistently used in the repo being edited), that more specific convention wins on the point of conflict per skill-hierarchy; this skill still governs everywhere that convention doesn't address.
+description: Reference Python style guide reverse-engineered from Doguhan Sariturk's (github.com/dogusariturk) real production repositories (HEACalculator, MaterialsFramework, PhaseForgePlus). Use this whenever writing, generating, reviewing, refactoring, or cleaning up ANY Python code for this user — scripts, modules, packages, CLIs, tests, or turning a vibe-coded/notebook-style script into something real — even if the user never mentions style explicitly. Covers project layout (src-layout, uv, ruff, ty, pre-commit, pytest), short single-responsibility files, typing, Google-style docstrings with units and literature references, cached_property for lazy derived attributes, narrow custom exceptions, named unit-conversion constants instead of magic numbers, composition over deep inheritance, registries for optional heavy dependencies, and multiprocessing worker conventions. Where this conflicts with a generic assistant default, this style is correct and the generic default is wrong — apply it before finalizing any Python output for this user. Where it conflicts instead with an established convention already in play for the current codebase (an existing project-scoped skill, or a style already consistently used in the repo being edited), that more specific convention wins on the point of conflict per skill-hierarchy; this skill still governs everywhere that convention doesn't address.
 ---
 
 # Write Python like dogusariturk
@@ -73,7 +73,48 @@ CLIs use **typer**, not bare `argparse`. Docs (when the project has them) are
 Don't scaffold all of this for a 20-line throwaway script — but even a small
 script still gets functions, type hints, and a docstring. See §12.
 
-## 2. Typing & imports
+## 2. File length & module boundaries
+
+Files are short. This was checked directly: across all three source repos,
+counting every non-test, non-`__init__.py`, non-generated `.py` file (116
+files), the median is **~82 lines**, the mean **~188**, and three-quarters of
+them are under **170 lines**. Roughly two-thirds are 100 lines or shorter.
+
+The handful of outliers prove the rule rather than break it. The two files
+over 3,000 lines are PyQt GUI pages (`parametersPage.py`,
+`batchCalculationsPage.py`) — dense widget-wiring code, a different genre
+from computational logic — and the one file over 17,000 lines
+(`HEACalculator_rc.py`) is Qt's auto-generated resource-compiler output,
+never hand-written and never a model for anything. Excluding those, his
+largest genuinely hand-written *logic* modules — a stability-map calculator,
+a thermodynamics module, an MD driver, an elastic-constants module — all land
+in the **500–700 line** range, and none of his computational code goes higher
+than that.
+
+Apply this as a real constraint, not just an aspiration:
+
+- **One file, one responsibility.** A module name is a concept (one model,
+  one calculator, one data source, one CLI command group) — not `utils.py`
+  or `helpers.py` collecting whatever didn't have an obvious home.
+- **Write toward the short end.** Most modules should read like his
+  median — well under 200 lines. A file only grows past that because its
+  logic genuinely earns the length, not because unrelated concerns piled up
+  in it.
+- **500–700 hand-written logic lines is the observed ceiling**, not a hard
+  cutoff — but treat a module crossing it as a prompt to split by concept
+  (pull out a class, a submodule, or a sibling module in the same package)
+  rather than a reason to keep appending.
+- **Judge by logic, not by line count alone.** A thoroughly Google-docstringed
+  module (§4) legitimately runs longer than an undocumented one covering the
+  same behavior — don't trim docstrings or collapse whitespace just to hit a
+  number. Weigh what the file *does*.
+- **Recognized exceptions announce themselves**: a GUI layout page wiring up
+  many widgets, or a literature/reference-data table, can legitimately run
+  long. Auto-generated code (a Qt `*_rc.py`, a protobuf stub) isn't part of
+  this convention at all — it's machine output, not a style to emulate or to
+  count against a hand-written module's budget.
+
+## 3. Typing & imports
 
 - Modern builtin generics and unions everywhere: `list[str]`, `dict[str, float]`,
   `X | None`. Never `typing.List`, `typing.Dict`, `typing.Optional`.
@@ -99,7 +140,7 @@ class Thermodynamics:
 - Import order (ruff `I` / isort): stdlib, blank line, third-party, blank
   line, local package — always, no manual reordering later.
 
-## 3. Docstrings
+## 4. Docstrings
 
 **Google convention, always** (`pydocstyle.convention = "google"`). One-line
 summary, blank line, then `Args:` / `Returns:` / `Raises:` / `Note:` /
@@ -125,7 +166,7 @@ def average_radius(fractions: dict[str, float], radii: dict[str, float]) -> floa
     return sum(frac * radii[elm] for elm, frac in fractions.items())
 ```
 
-## 4. Class design
+## 5. Class design
 
 - **`functools.cached_property` for any derived attribute that's expensive
   or just non-trivial to compute.** Don't compute everything eagerly in
@@ -163,7 +204,7 @@ class SolidSolutionPredictor:
         ...
 ```
 
-## 5. Exceptions
+## 6. Exceptions
 
 Define **narrow, named exceptions subclassing the closest builtin**, with
 nothing but a one-line docstring — not a bare `raise ValueError(...)` and not
@@ -188,7 +229,7 @@ except Exception as e:  # generic fallback, last, still explicit
     raise typer.BadParameter(f"Could not process '{alloy}': {e}") from e
 ```
 
-## 6. Constants over magic numbers
+## 7. Constants over magic numbers
 
 Any non-obvious numeric literal — especially a unit conversion — gets a
 named `_UPPER_SNAKE` constant with an inline comment showing the conversion,
@@ -204,7 +245,7 @@ Module-wide physical constants live once near the top of the module:
 GAS_CONSTANT = 8.314462618  # J / (mol*K)
 ```
 
-## 7. Readability details that are deliberate, not accidental
+## 8. Readability details that are deliberate, not accidental
 
 - `zip(a, b, strict=True)` whenever two sequences are assumed equal length —
   catches silent truncation bugs.
@@ -223,7 +264,7 @@ return (
 - Comments explain *why*, not *what*. If a comment just restates the code,
   delete it and improve a name instead.
 
-## 8. Multiprocessing workers
+## 9. Multiprocessing workers
 
 Worker functions passed to `ProcessPoolExecutor` are:
 - defined at **module level** (must be picklable — no closures/lambdas/nested defs),
@@ -251,7 +292,7 @@ def _range_worker(formula: str) -> tuple[list | None, str | None]:
         return None, str(e)
 ```
 
-## 9. Optional heavy dependencies: lazy registries
+## 10. Optional heavy dependencies: lazy registries
 
 When a package offers many interchangeable backends and each backend has its
 own heavy optional dependency (an ML framework, a simulation engine), don't
@@ -276,7 +317,7 @@ def __getattr__(name: str) -> type:
     return getattr(importlib.import_module(module_name), attr)
 ```
 
-## 10. Tests
+## 11. Tests
 
 - `unittest.TestCase`-style classes grouped by the function/class under test
   (`class TestFindAllComps(TestCase):`), run through pytest.
@@ -295,7 +336,7 @@ class TestAverageRadius(TestCase):
         assert average_radius({"Fe": 1.0}, {"Fe": 126.0}) == pytest.approx(126.0)
 ```
 
-## 11. Anti-patterns to flag and fix
+## 12. Anti-patterns to flag and fix
 
 When reviewing existing ("vibe-coded") Python against this style, these are
 the recurring problems to call out and fix:
@@ -314,19 +355,22 @@ the recurring problems to call out and fix:
 6. **Deep inheritance chains or god objects** where composition (`self._x`
    holding a collaborator) would be simpler and more testable.
 7. **Eager, unnecessary imports of heavy optional dependencies** at module
-   top-level when a lazy registry (§9) would do.
+   top-level when a lazy registry (§10) would do.
 8. **`os.path` instead of `pathlib.Path`.**
 9. **One test that asserts five unrelated things** instead of small, named,
    single-purpose tests.
+10. **A single file quietly absorbing unrelated responsibilities** well past
+    the ~500–700 hand-written-logic-line ceiling (§2) instead of being split
+    by concept — a `utils.py` that keeps growing is the classic shape of this.
 
-## 12. Note on personal metadata
+## 13. Note on personal metadata
 
 His files carry `__author__` / `__email__` module headers — that's a
 personal-project convention tied to *his* identity, not a code-quality rule.
 Don't stamp his name/email into this user's code. If the user wants an
 attribution header pattern, use *their* name/email; otherwise just skip it.
 
-## 13. Before finalizing any Python for this user
+## 14. Before finalizing any Python for this user
 
 Run this checklist over what you're about to output:
 
@@ -343,3 +387,6 @@ Run this checklist over what you're about to output:
       `(result, error)` tuples
 - [ ] It's a real module with functions/classes, not a flat script — even
       for something small
+- [ ] No file is quietly carrying multiple unrelated responsibilities past
+      the observed ~500–700 hand-written-logic-line ceiling (§2) — split by
+      concept before it gets there
