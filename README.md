@@ -36,6 +36,8 @@ These skills are shared across assistants; individual workflows may require tool
 | [`checkpoint`](claude/checkpoint/) | Original Claude checkpoint workflow for saving progress and resuming long tasks in a new conversation or model. |
 | [`effort-advisor`](claude/effort-advisor/) | Recommends a Claude model and effort level based on the complexity of the current task. |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
+| [`skill-benchmark`](claude/skill-benchmark/) | Statically scores and ranks every installed skill on description quality, tool scoping, staleness, size, and overlap with other skills, printed as a console table. |
+| [`skill-hierarchy`](claude/skill-hierarchy/) | Resolves conflicts between loaded skills by having the more specific skill win on the exact point of disagreement, leaving the general skill in force elsewhere. |
 
 ### Third-party skills
 
