@@ -50,8 +50,9 @@ Third-party skills are stored under [`external/`](external/) and excluded from t
 | [RTK](external/sources/rtk-ai/rtk/) | 12 |
 | [Ponytail](external/sources/dietrichgebert/ponytail/) | 6 |
 | [Microsoft Data Formulator](external/sources/microsoft/data-formulator/) | 3 |
+| [Diagram Design](external/sources/cathrynlavery/diagram-design/) | 1 |
 
-The two catalogs overlap, so their counts should not be added together. The external collection currently contains 128 unique vendored skill packages from 17 upstream repositories. See the [external manifest](external/MANIFEST.csv) and [source inventory](external/README.md) for exact paths and revisions.
+The two catalogs overlap, so their counts should not be added together. The external collection currently contains 129 unique vendored skill packages from 18 upstream repositories. See the [external manifest](external/MANIFEST.csv) and [source inventory](external/README.md) for exact paths and revisions.
 
 Each skill is self-contained. Its `SKILL.md` defines when it should run and how the assistant should apply it; supporting references, examples, scripts, and assets stay beside that file.
 

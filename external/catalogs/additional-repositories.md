@@ -31,3 +31,7 @@ Canonical Agent Skill directories selected for the LPS external collection.
 - https://github.com/microsoft/data-formulator/tree/main/.cursor/skills/error-handling
 - https://github.com/microsoft/data-formulator/tree/main/.cursor/skills/language-injection
 - https://github.com/microsoft/data-formulator/tree/main/.cursor/skills/path-safety
+
+## Diagram Design
+
+- https://github.com/cathrynlavery/diagram-design/tree/main/skills/diagram-design

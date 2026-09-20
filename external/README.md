@@ -2,9 +2,9 @@
 
 Third-party Agent Skills vendored from the supplied source catalogs and explicitly requested repositories in `catalogs/`. These snapshots are kept separate from personal skills and are not installed by the root README's bulk-install commands.
 
-Snapshot date: `2026-09-18`  
-Skill packages: `128`  
-Upstream repositories: `17`
+Snapshot date: `2026-09-19`  
+Skill packages: `129`  
+Upstream repositories: `18`
 
 Each source stays under `sources/<owner>/<repository>/` with its upstream path intact. `MANIFEST.csv` records every discovered `SKILL.md`, exact commit, source URL, and originating catalog. Root license and notice files are preserved when present. The upstream license applies to each vendored source; no repository-wide LPS license is implied.
 
@@ -15,6 +15,7 @@ Each source stays under `sources/<owner>/<repository>/` with its upstream path i
 | [anthropics/skills](https://github.com/anthropics/skills) | 6 | `34040c9c5685` | materials-science-python-skills-direct.md | None found |
 | [athola/claude-night-market](https://github.com/athola/claude-night-market) | 11 | `904583125527` | ai-behavior-fix-skills.md | LICENSE |
 | [AutumnsGrove/ClaudeSkills](https://github.com/AutumnsGrove/ClaudeSkills) | 4 | `cf6f6fb91cfc` | materials-science-python-skills-direct.md | None found |
+| [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) | 1 | `dc1ace47b99a` | additional-repositories.md | LICENSE |
 | [cemde/scientific-coding-skill](https://github.com/cemde/scientific-coding-skill) | 1 | `6e6c2762451c` | ai-behavior-fix-skills.md | LICENSE |
 | [dietrichgebert/ponytail](https://github.com/dietrichgebert/ponytail) | 6 | `e3ba2aa6f1e6` | additional-repositories.md | LICENSE |
 | [GeoffreyWang1117/bibguard](https://github.com/GeoffreyWang1117/bibguard) | 1 | `77d431eb1f14` | ai-behavior-fix-skills.md | LICENSE |
