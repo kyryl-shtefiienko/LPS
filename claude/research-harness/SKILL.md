@@ -69,9 +69,14 @@ common case — this project is designed to run without any LLM API key), use
 **console mode**: `references/console-mode.md`. There, extraction and
 merging are done by you directly — reading converted paper markdown and
 deciding idea content yourself — via `fetch-pdfs`/`convert`/`match-idea`/
-`ingest-ideas` instead of `run`/`import`/`deepen`. Everything below this
-point describes the automatic path, which only applies once a key is
-configured.
+`ingest-ideas` instead of `run`/`import`/`deepen`. Even discovery itself
+doesn't need a key: `discover`/`discover-for-idea` run the same connector
+channels `run`/`deepen` do (search, citation expansion, recommendations),
+just stopping before the LLM-requiring extract step, and persist the
+resulting candidates so you can resume screening them later — see
+"Discovery without an LLM key" in `references/commands.md`. Everything
+below this point describes the automatic path, which only applies once a
+key is configured.
 
 ## Staged flow (preferred, requires an LLM key)
 

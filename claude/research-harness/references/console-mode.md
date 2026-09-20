@@ -6,23 +6,38 @@ this staged flow instead of `run`/`import`/`deepen`, which require an LLM key.
 
 ## 1. Search and pick candidates
 
+Prefer `discover`/`discover-for-idea` over a bare `search` call — they run
+the same connector channels (`discover` = keyword search, `discover-for-idea`
+= citation expansion + recommendations + your own keyword queries) but
+additionally dedup against known `trash`/`processed` sources automatically
+(step 2 below, done for you) and **persist** the resulting candidate list as
+a batch, so if this session ends mid-screening, a later one can resume with
+`show-discovery-batch <batch-id>` instead of re-searching or guessing what
+was already looked at:
 ```
-uv run research-harness search "<topic>" --source arxiv --max-results 10 > /tmp/results.json
+uv run research-harness discover "<topic>" --max-results 10
+uv run research-harness discover-for-idea "<idea-id>" --query "<query one>" --query "<query two>"
 ```
-`--source semanticscholar` works the same way, and also unlocks `lookup`/
-`related`/`recommend`/`enrich` — none of these need an LLM key either. Use
-`enrich results.json` to fill in a missing DOI/abstract/PDF url before
-fetching, and `related "<id>" citations`/`references` to expand from a paper
-you already have rather than a fresh keyword search. Read the JSON. Drop
-anything off-topic. If you're keeping a subset, write the trimmed list to a
-new file before continuing.
+Read the printed `candidates` (or re-fetch them later via
+`show-discovery-batch`). Drop anything off-topic — the rest of this flow
+only needs whichever subset you're keeping; you don't need to write it back
+anywhere, just pass those specific candidate objects to `fetch-pdfs` next.
 
-## 2. Check dedup/trash before spending effort
+A bare `search "<topic>" --source arxiv --max-results 10` still works too
+(and `--source semanticscholar` also unlocks `lookup`/`related`/`recommend`/
+`enrich`, none of which need an LLM key either — `enrich results.json` fills
+in a missing DOI/abstract/PDF url, `related "<id>" citations`/`references`
+expands from a paper you already have) — use it directly only when you
+specifically don't want the batch persisted, or need one of these other
+capabilities `discover` doesn't wrap.
+
+## 2. Check dedup/trash before spending effort (skip if you used `discover`)
 
 ```
 uv run research-harness source-status "<identifier>"
 ```
-Skip anything already `trash` or `processed`.
+Skip anything already `trash` or `processed`. Not needed after
+`discover`/`discover-for-idea` — they already excluded these.
 
 ## 3. Fetch and convert
 

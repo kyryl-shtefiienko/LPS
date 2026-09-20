@@ -178,28 +178,78 @@ own existing sources (its `max-seeds` most-recently-added ones):
 
 1. **Citation expansion** — references/citations of each seed, on whichever
    configured connector supports them (a no-op with only `arxiv` configured).
-2. **Recommendations** — seeded from whichever of those sources already have
-   a resolved `semantic_scholar_id` on file (skipped entirely if none do);
-   deliberately-rejected sources (see `rejected-sources` below) are passed as
-   negative seeds automatically.
-3. **Keyword search** — today's original behavior: 2-4 queries generated from
-   the idea's `Open Questions / To Deepen` section, searched on every
-   connector.
+2. **Recommendations** — seeded from each source's Semantic Scholar id,
+   resolved on demand via `lookup` if not already on file (so this still
+   works for an idea whose sources were only ever found via arXiv, as long
+   as Semantic Scholar is also enabled); skipped only if no id can be
+   resolved at all. Deliberately-rejected sources (see `rejected-sources`
+   below) are passed as negative seeds automatically.
+3. **Keyword search** — 2-4 queries generated (via LLM) from the idea's
+   `Open Questions / To Deepen` section, searched on every connector.
 
 All three channels feed one deduped list — a paper surfacing via more than
 one channel is only ever processed once — with anything already known
 `processed` or `trash` excluded before any fetch is attempted, regardless of
-which channel resurfaced it. `--max-candidates` bounds the total accepted
-across all channels combined; once reached, no further connector calls (not
-just downloads) are made. The deduped candidates run through the same fetch/
-convert/extract/merge loop as `run`, feeding back into the idea (and any
-ideas it spins off via `extends`), and the idea's `depth` is incremented.
-Prints the same run-summary shape as `run`, with `topic` set to
-`deepen:<idea-id>`.
+which channel resurfaced it. `--max-candidates` is split into a quota per
+channel (citation and recommend each get roughly a third, keyword search
+gets the remainder) so an early, prolific channel can't consume the whole
+budget and starve the ones after it — once a channel's own quota is spent,
+it stops making further connector calls even if the total budget has room
+left. The deduped candidates run through the same fetch/convert/extract/merge
+loop as `run`, feeding back into the idea (and any ideas it spins off via
+`extends`), and the idea's `depth` is incremented. Prints the same
+run-summary shape as `run`, with `topic` set to `deepen:<idea-id>`.
 
 A single `deepen` call is one hop of citation/recommendation expansion from
 its seeds (no citations-of-citations) — repeated multi-round deepening, with
 a stop-on-a-dead-round rule, is the calling skill's job, not this command's.
+
+## Discovery without an LLM key: `discover`/`discover-for-idea`
+
+`run` and `deepen` require an LLM key (for extraction, and — for `deepen` —
+follow-up query generation). `discover`/`discover-for-idea` are their keyless
+counterparts: same connector channels, but they stop *before* fetch/convert/
+extract and just return candidates for you to screen yourself, then feed into
+the existing console-mode commands (`fetch-pdfs`/`convert`/`ingest-ideas`).
+This is the primary way to run a full research session with zero LLM API key
+configured — not just extraction, now discovery too.
+
+### `discover <topic> [--query TEXT ...] [--max-results 10] [--max-candidates 100]`
+Searches every enabled connector for `<topic>` (or, with one or more
+`--query` flags repeated, those exact queries instead — e.g. queries you
+wrote by hand from an idea's open questions, without needing an LLM to
+generate them). Dedupes against sources already known `trash`/fully
+`processed` the same way `run`/`deepen` do. The result is **persisted** as a
+batch (see below) instead of just printed and forgotten, so a later session
+can pick up from the exact same candidate list. Prints
+`{"batch_id", "kind": "topic", "label", "created", "candidates"}` —
+`candidates` are the same `SearchResult`-shaped dicts `search` already uses.
+
+### `discover-for-idea <idea-id> [--query TEXT ...] [--max-results 5] [--max-seeds 5] [--max-candidates 20]`
+The keyless counterpart to `deepen`: runs the same citation-expansion and
+recommendation channels (both already keyless) seeded from the idea's own
+sources, plus keyword search using your `--query` flags instead of
+`deepen`'s LLM-generated ones (omit `--query` entirely to rely on citation
+expansion/recommendations alone). Same per-channel quota split as `deepen`.
+Does **not** bump the idea's `depth` or process anything — it only gathers
+and persists candidates; run `bump_depth`-worthy work yourself via
+`fetch-pdfs`/`convert`/`ingest-ideas`, the same as after `discover`. Prints
+the same batch shape as `discover`, with `"kind": "idea"` and `"label"` set
+to the idea id.
+
+### `show-discovery-batch <batch-id>`
+Reads a previously saved batch back — the resumability piece: a later
+session (or the same one, after a break) can pick up screening from the
+exact list `discover`/`discover-for-idea` produced, instead of re-running
+discovery or trying to remember what was already decided. Prints the same
+shape those two commands do.
+
+### `list-discovery-batches`
+Lists every saved batch's id, oldest first (they're timestamp-prefixed) —
+use this to find the id `show-discovery-batch` expects. Batches live under
+the harness's own `data/discovery/` (not the vault — this is pipeline
+working state, not idea-graph content) and are never overwritten: each
+`discover`/`discover-for-idea` call creates a new one.
 
 ## NotebookLM / Gemini Notebook round-trip
 
