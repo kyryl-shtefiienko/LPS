@@ -164,6 +164,25 @@ Prints one idea's full record as JSON — every field, including `relations`
 directly. Use this when you already have an id (from `query`/`list-ideas`/
 `match-idea`) and want the complete note, not just gist/topic/depth.
 
+### `idea-history <idea-id>`
+Prints every recorded content snapshot for one idea, oldest first, as
+`[{"version", "recorded_at", "operation", "source_identifier"}, ...]` —
+metadata only, not the snapshot's actual content. Every merge or
+console-mode update to an idea's content (never its creation) is recorded
+*before* the overwrite happens, so a bad merge (an LLM hallucination, a
+wrong console-mode edit) is never permanently destructive. `operation` is
+`"update"` (a direct `ingest-ideas` edit), `"merge"` (an automatic
+`run`/`deepen` merge), or `"revert"` (a previous `revert-idea` call, which
+is itself recorded). Use this before `revert-idea` to see which `version`
+to restore.
+
+### `revert-idea <idea-id> <version>`
+Restores an idea's `gist`/`knowledge`/`open_questions`/`topic`/`tags`/
+`kind`/relations/`evidence` to exactly how they stood at one `version` from
+`idea-history`. The current content is snapshotted first — a revert is
+itself just another recorded change, so reverting a revert works the same
+way. Reindexes automatically. Prints the restored idea record.
+
 ## `import <consensus|researchrabbit|litmaps> <file> [--max-results N] [--parse-only]`
 Parses a manually exported `.csv` or `.bib` file into `SearchResult`s, then
 runs the full fetch → convert → extract → merge pipeline on them (same as
@@ -390,9 +409,23 @@ vault was edited by hand. `--sort` controls each Topic page's row order
 (default `updated`: most recently touched idea first).
 
 ## `query <keywords> [--limit 15]`
-Cheap Tier-0 keyword search over active idea gists/topic/tags, ranked by
-relevance. Returns `[{"id": ..., "gist": ..., "topic": ...}]`. Use this
-before reading full note files — it's the whole point of the tiered index.
+Cheap Tier-0 keyword search over active ideas' gist/topic/tags **and** full
+`knowledge`/`open_questions` body text, ranked by relevance (a gist/topic/tags
+match ranks above a match found only deep in the body). Returns
+`[{"id": ..., "gist": ..., "topic": ...}]`. Use this before reading full
+note files — it's the whole point of the tiered index.
+
+## `search-source-text <query> [--source X] [--max-results 10]`
+Full-text search over every converted source's chunk-indexed text — a
+separate index from `query` (that one searches the idea graph; this one
+searches the raw papers themselves). `convert` indexes each source's
+converted text into paragraph-aligned chunks automatically; this searches
+those chunks. Use it to find a genuine excerpt to cite as claim-level
+evidence (`ingest-ideas`' `evidence` field) without reading an entire
+converted source end to end — search for the claim's topic, then copy the
+exact matching chunk text as the excerpt. Omit `--source` to search across
+every converted source; pass it to scope to one. Returns
+`[{"source_identifier", "chunk_index", "text"}, ...]`.
 
 ## `list-topics`
 Lists every topic with its active idea count, e.g.

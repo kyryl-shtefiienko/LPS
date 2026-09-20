@@ -113,8 +113,11 @@ source's converted text>", "location": "<section/page, optional>",
 "author_interpretation", or "harness_inference"}`. Copy `excerpt` straight
 from the converted text you already read — don't retype it from memory —
 since the first two `type`s are checked against that cached text and a
-mismatch fails the whole ingest batch. Use `harness_inference` for a
-conclusion you drew yourself rather than something the source states.
+mismatch fails the whole ingest batch. If you don't already have the
+converted text open, `search-source-text "<topic>" --source
+"<source-identifier>"` finds a matching chunk to copy from without reading
+the whole file. Use `harness_inference` for a conclusion you drew yourself
+rather than something the source states.
 Example:
 ```json
 {

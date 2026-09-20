@@ -55,6 +55,20 @@ excerpt is checked against the source's cached converted text before it's
 written, so this only works for a source you've already converted, and the
 excerpt must be copied, not retyped from memory.
 
+**Merges are reversible.** Every time an idea's content is overwritten (an
+automatic `run`/`deepen` merge, or a direct `ingest-ideas` update), its
+prior content is snapshotted first — see `idea-history`/`revert-idea` in
+`references/commands.md`. If a merge looks wrong (an LLM garbled two
+findings together, a console-mode edit was a mistake), check `idea-history`
+and `revert-idea` back to the last-good version instead of trying to
+manually reconstruct the old text.
+
+**Search the papers themselves, not just the idea graph.** `query` searches
+ideas (gist/topic/tags/knowledge/open_questions); `search-source-text`
+searches converted sources' own text, chunk by chunk — use it to find a
+genuine excerpt to cite as `evidence` without reading an entire converted
+paper end to end.
+
 **Topic slugs nest under a general-topic folder.** Use
 `{general-topic}/{specific-subtopic}` as the `topic` slug (e.g.
 `cold-spray-additive-manufacturing/simulation`, not a flat
