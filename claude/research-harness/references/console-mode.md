@@ -64,10 +64,26 @@ If it returns a match, read that existing idea's `Knowledge` section
 knowledge text yourself — extend it, note agreement/contradiction, don't
 just concatenate.
 
+**Also extract a definition for every acronym/jargon term you use.** As you
+write each idea's `gist`/`knowledge`/`tags`, notice any acronym or technical
+term a reader outside this subfield wouldn't already know (CFD, RANS, an
+uncommon method name — not every tag needs this, just genuine jargon). A tag
+like `#cfd` with no note anywhere explaining what CFD is is a dead end for
+whoever reads the graph later. For each such term, check it's not already
+defined:
+```
+uv run research-harness find-definition "<term>"
+```
+If nothing comes back, add a `kind: "definition"` element to the same
+ingest batch: `gist` is the bare term itself (e.g. `"CFD"`, nothing more —
+this is what `find-definition` matches on), `knowledge` is a clear
+explanation of what it means and how this paper uses it, `open_questions`
+empty, `topic`/`tags` same as you'd pick for a finding on this subject.
+
 ## 5. Ingest
 
-Write a JSON file: a list of `{"id": <existing-id-or-omit>, "gist":, "knowledge":, "open_questions":, "topic":, "tags":}`,
-then:
+Write a JSON file: a list of `{"id": <existing-id-or-omit>, "gist":, "knowledge":, "open_questions":, "topic":, "tags":, "kind": <omit for "finding", or "definition">}`
+— findings and definitions for the same source can mix in one list — then:
 ```
 uv run research-harness ingest-ideas "<source-identifier>" ideas.json
 ```
