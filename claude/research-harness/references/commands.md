@@ -116,9 +116,9 @@ existing one with new information (see "NotebookLM round-trip" below).
 ### `ingest-ideas <source-identifier> <ideas-file>`
 Writes already-decided idea content into the vault — no LLM call. `ideas-file`
 is a JSON list of `{"id"?, "gist", "knowledge", "open_questions"?, "topic"?,
-"tags"?, "kind"?, "related_to"?, "contradicts"?, "extends"?}`. Omit `id` to
-create a new note; include it (from `match-idea`/`find-definition`) to
-update that note instead. `kind` is `"finding"` (the default) or
+"tags"?, "kind"?, "related_to"?, "contradicts"?, "extends"?, "evidence"?}`.
+Omit `id` to create a new note; include it (from `match-idea`/`find-definition`)
+to update that note instead. `kind` is `"finding"` (the default) or
 `"definition"` (one term, rendered in its own table on the Topic page,
 looked up by `find-definition` instead of `match-idea`) — omit it on an
 update to leave an existing idea's kind unchanged. The three relation
@@ -126,6 +126,28 @@ fields are each a list of idea ids and are **unioned** into the note's
 existing relation lists, never overwritten — safe to pass only the ones
 you're adding. Marks the source `processed` and rebuilds the index. Prints
 `{"source_identifier", "idea_ids"}`.
+
+`evidence` is a list of `{"source", "excerpt", "location"?, "conditions"?,
+"type"?}` — claim-level provenance, tying a specific piece of `knowledge` to
+where it actually came from. `source` is any already-known source
+identifier (usually, but not always, this same `source_identifier`).
+`location` is free text (a section/page/figure reference); `conditions`
+notes the experimental conditions the claim holds under (e.g. "at 4 K,
+ambient pressure"), if any. `type` is one of:
+- `"reported_finding"` (default) — a result the paper states directly.
+- `"author_interpretation"` — the authors' own reading of a result, not the raw measurement.
+- `"harness_inference"` — a conclusion *you* drew by combining/reasoning over sources, not a quote from any one of them.
+
+For the first two types, `excerpt` must be an actual quoted (or
+near-verbatim — whitespace differences are tolerated) span of `source`'s
+**cached converted text** — it is checked against that cache before
+anything is written. A `harness_inference` excerpt is exempt from this
+check since it's your own synthesis, not a quote. If any item in the batch
+has an unverifiable excerpt, the whole call raises and **nothing is
+ingested** — fix the excerpt (or convert the source first, via
+`fetch-pdfs`/`convert`, if it hasn't been cached yet) and retry. Never
+paraphrase a quote to make it match; if you can't find the exact supporting
+text, use `"harness_inference"` instead, or drop the evidence entry.
 
 ### `link-ideas <id-a> <relation> <id-b>`
 Adds a relation between two *existing* ideas without touching anything else

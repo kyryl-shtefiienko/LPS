@@ -97,13 +97,40 @@ empty, `topic`/`tags` same as you'd pick for a finding on this subject.
 
 ## 5. Ingest
 
-Write a JSON file: a list of `{"id": <existing-id-or-omit>, "gist":, "knowledge":, "open_questions":, "topic":, "tags":, "kind": <omit for "finding", or "definition">}`
+Write a JSON file: a list of `{"id": <existing-id-or-omit>, "gist":, "knowledge":, "open_questions":, "topic":, "tags":, "kind": <omit for "finding", or "definition">, "evidence": <optional>}`
 — findings and definitions for the same source can mix in one list — then:
 ```
 uv run research-harness ingest-ideas "<source-identifier>" ideas.json
 ```
 This writes the note(s), marks the source `processed`, and rebuilds the
 index — no LLM call anywhere in this step.
+
+**Back a finding with evidence whenever you're quoting or paraphrasing a
+specific result**, not just summarizing the paper in general. Each entry:
+`{"source": "<source-identifier>", "excerpt": "<verbatim span from that
+source's converted text>", "location": "<section/page, optional>",
+"conditions": "<optional>", "type": "reported_finding" (default),
+"author_interpretation", or "harness_inference"}`. Copy `excerpt` straight
+from the converted text you already read — don't retype it from memory —
+since the first two `type`s are checked against that cached text and a
+mismatch fails the whole ingest batch. Use `harness_inference` for a
+conclusion you drew yourself rather than something the source states.
+Example:
+```json
+{
+  "gist": "Coating porosity drops sharply above 500 m/s particle velocity",
+  "knowledge": "...",
+  "topic": "cold-spray-additive-manufacturing/process-parameters",
+  "evidence": [
+    {
+      "source": "10.1016/j.example.2024.01.001",
+      "excerpt": "porosity decreased from 8.2% to 1.1% as impact velocity increased from 400 to 550 m/s",
+      "location": "Section 3.2, Fig. 4",
+      "type": "reported_finding"
+    }
+  ]
+}
+```
 
 ## 6. Review, trash, deepen
 

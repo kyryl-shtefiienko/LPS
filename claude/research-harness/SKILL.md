@@ -47,6 +47,14 @@ still worth keeping; give it whatever `topic` slug fits *its own* content,
 not necessarily the run's search topic. An attempted approach plus a
 negative/null result is a valid idea too, not just headline findings.
 
+**Back specific claims with claim-level evidence.** Beyond the bare source
+list, an idea can carry an `evidence` list tying one particular piece of
+`knowledge` to a verbatim excerpt of where it came from — see the
+`evidence` field in `ingest-ideas` (`references/commands.md`). A quoted
+excerpt is checked against the source's cached converted text before it's
+written, so this only works for a source you've already converted, and the
+excerpt must be copied, not retyped from memory.
+
 **Topic slugs nest under a general-topic folder.** Use
 `{general-topic}/{specific-subtopic}` as the `topic` slug (e.g.
 `cold-spray-additive-manufacturing/simulation`, not a flat
