@@ -214,28 +214,35 @@ the existing console-mode commands (`fetch-pdfs`/`convert`/`ingest-ideas`).
 This is the primary way to run a full research session with zero LLM API key
 configured — not just extraction, now discovery too.
 
-### `discover <topic> [--query TEXT ...] [--max-results 10] [--max-candidates 100]`
+### `discover <topic> [--query TEXT ...] [--max-results 10] [--max-candidates 100] [--open-access-only]`
 Searches every enabled connector for `<topic>` (or, with one or more
 `--query` flags repeated, those exact queries instead — e.g. queries you
 wrote by hand from an idea's open questions, without needing an LLM to
 generate them). Dedupes against sources already known `trash`/fully
-`processed` the same way `run`/`deepen` do. The result is **persisted** as a
-batch (see below) instead of just printed and forgotten, so a later session
-can pick up from the exact same candidate list. Prints
-`{"batch_id", "kind": "topic", "label", "created", "candidates"}` —
-`candidates` are the same `SearchResult`-shaped dicts `search` already uses.
+`processed` the same way `run`/`deepen` do. `--open-access-only` drops any
+candidate with no `pdf_url` — a metadata-only result (every Crossref result,
+by design — see its connector docstring) that would need a paywall,
+institutional access, or a separate `enrich` pass before it's actually
+fetchable; use this when you specifically want "show me only what I can grab
+directly." The result is **persisted** as a batch (see below) instead of
+just printed and forgotten, so a later session can pick up from the exact
+same candidate list. Prints `{"batch_id", "kind": "topic", "label",
+"created", "candidates"}` — `candidates` are the same `SearchResult`-shaped
+dicts `search` already uses.
 
-### `discover-for-idea <idea-id> [--query TEXT ...] [--max-results 5] [--max-seeds 5] [--max-candidates 20]`
+### `discover-for-idea <idea-id> [--query TEXT ...] [--max-results 5] [--max-seeds 5] [--max-candidates 20] [--open-access-only]`
 The keyless counterpart to `deepen`: runs the same citation-expansion and
 recommendation channels (both already keyless) seeded from the idea's own
 sources, plus keyword search using your `--query` flags instead of
 `deepen`'s LLM-generated ones (omit `--query` entirely to rely on citation
-expansion/recommendations alone). Same per-channel quota split as `deepen`.
-Does **not** bump the idea's `depth` or process anything — it only gathers
-and persists candidates; run `bump_depth`-worthy work yourself via
-`fetch-pdfs`/`convert`/`ingest-ideas`, the same as after `discover`. Prints
-the same batch shape as `discover`, with `"kind": "idea"` and `"label"` set
-to the idea id.
+expansion/recommendations alone). Same per-channel quota split as `deepen`,
+same `--open-access-only` filter as `discover` (drops every OpenCitations
+result outright, since those are bare DOIs with no `pdf_url` at all — enrich
+first if you want to keep them). Does **not** bump the idea's `depth` or
+process anything — it only gathers and persists candidates; run
+`bump_depth`-worthy work yourself via `fetch-pdfs`/`convert`/`ingest-ideas`,
+the same as after `discover`. Prints the same batch shape as `discover`,
+with `"kind": "idea"` and `"label"` set to the idea id.
 
 ### `show-discovery-batch <batch-id>`
 Reads a previously saved batch back — the resumability piece: a later

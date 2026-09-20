@@ -116,24 +116,36 @@ convert → extract → merge for every connector-returned result in one call.
 Use it when the user just wants a fast first pass and accepts you'll trash
 the noise afterward, not as the default for a careful research session.
 
-## Discovery beyond keyword search (Semantic Scholar)
+## Discovery beyond keyword search (Semantic Scholar, Crossref, OpenCitations)
 
-`--source semanticscholar` also supports lookup, citation graph traversal,
-and recommendations — no LLM key needed for any of these:
+All keyless — no LLM key, no account, no API key needed for any of these
+(Crossref/OpenCitations never require one at all; Semantic Scholar works
+unauthenticated too, just at a lower rate limit):
 - `uv run research-harness lookup "<identifier>" --source semanticscholar`
-  (a bare DOI, or a prefixed id like `DOI:10.1/x`/`ARXIV:2401.01234`).
+  (a bare DOI, or a prefixed id like `DOI:10.1/x`/`ARXIV:2401.01234`) or
+  `--source crossref` (bare DOI only — Crossref's index is DOI-only).
 - `uv run research-harness related "<identifier>" references` (what it
-  cites) or `... citations` (what cites it).
+  cites) or `... citations` (what cites it) — `--source semanticscholar`,
+  or `--source opencitations` for a pure citation-graph provider with wider
+  DOI coverage than Semantic Scholar for many fields. OpenCitations results
+  come back as **bare DOIs only** (no title/abstract/pdf_url) — `enrich`
+  them against Crossref or Semantic Scholar before treating one as fetchable.
 - `uv run research-harness recommend <seeds-file>` — given
   `{"positive": [...], "negative": [...]}`, both seed lists matter: negative
   seeds actively steer recommendations away from directions you've already
-  ruled out, not just toward the positive ones.
+  ruled out, not just toward the positive ones. Semantic Scholar only.
 - `uv run research-harness enrich <results-file>` — fills in a missing DOI/
   abstract/open-access-PDF-url on results from `search` or
   `import --parse-only`, without overwriting anything already present.
 
-Only `semanticscholar` implements these today; calling one against `arxiv`
-raises a clear capability error rather than failing silently.
+Calling an unsupported capability on a connector that doesn't implement it
+(e.g. `recommend --source arxiv`) raises a clear capability error rather
+than failing silently — check what a connector actually supports before
+assuming it works the same way across all of them. Crossref never populates
+`pdf_url` at all (its `link` metadata mixes free and paywalled full text
+with no reliable way to tell them apart) — pass `--open-access-only` to
+`discover`/`discover-for-idea` (see below) to drop these and any other
+metadata-only result automatically instead of checking each one by hand.
 
 ## Sources with no API (Consensus, ResearchRabbit, Litmaps)
 
