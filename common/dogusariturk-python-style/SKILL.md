@@ -232,17 +232,22 @@ except Exception as e:  # generic fallback, last, still explicit
 ## 7. Constants over magic numbers
 
 Any non-obvious numeric literal — especially a unit conversion — gets a
-named `_UPPER_SNAKE` constant with an inline comment showing the conversion,
-defined right where it's used (module-level if shared, local if not):
+named constant with an inline comment showing the conversion, defined right
+where it's used (module-level if shared, local if not).
+
+**No `ALL_CAPS`/`SCREAMING_SNAKE_CASE` globals.** Every module-level name,
+constants included, stays lowercase `snake_case` (private ones still get the
+leading underscore) — this style never marks a "constant" by shouting its
+name in capitals:
 
 ```python
-_J_PER_MOL_TO_MEV_PER_ATOM = 0.0103642688  # 1 J/mol = 0.010364 meV/atom
+_j_per_mol_to_mev_per_atom = 0.0103642688  # 1 J/mol = 0.010364 meV/atom
 ```
 
 Module-wide physical constants live once near the top of the module:
 
 ```python
-GAS_CONSTANT = 8.314462618  # J / (mol*K)
+gas_constant = 8.314462618  # J / (mol*K)
 ```
 
 ## 8. Readability details that are deliberate, not accidental
@@ -301,7 +306,7 @@ import them all eagerly. Map name → `(module, attr)` and resolve lazily via
 backend they actually use:
 
 ```python
-_BACKEND_MAP: dict[str, tuple[str, str]] = {
+_backend_map: dict[str, tuple[str, str]] = {
     "FooBackend": ("mypackage.backends.foo", "FooBackend"),
     "BarBackend": ("mypackage.backends.bar", "BarBackend"),
 }
@@ -309,9 +314,9 @@ _BACKEND_MAP: dict[str, tuple[str, str]] = {
 
 def __getattr__(name: str) -> type:
     """Lazily import and return a backend class by name."""
-    if name not in _BACKEND_MAP:
+    if name not in _backend_map:
         raise AttributeError(name)
-    module_name, attr = _BACKEND_MAP[name]
+    module_name, attr = _backend_map[name]
     import importlib
 
     return getattr(importlib.import_module(module_name), attr)
@@ -348,18 +353,22 @@ the recurring problems to call out and fix:
    re-raise, no logging — silently swallowing errors.
 3. **Magic numbers inline** with no named constant, especially unit
    conversions.
-4. **Mixed or missing docstring style** — inconsistent numpy/Google/none.
+4. **`ALL_CAPS`/`SCREAMING_SNAKE_CASE` module-level constants.** Rename to
+   lowercase `snake_case` (§7) — this style has no global variables written
+   in capital letters; "constant-ness" is conveyed by the docstring/comment,
+   not by shouting the name.
+5. **Mixed or missing docstring style** — inconsistent numpy/Google/none.
    Standardize on Google, everywhere, including private helpers.
-5. **`Optional[X]`, `List[X]`, `Dict[X, Y]`** instead of `X | None`, `list[X]`,
+6. **`Optional[X]`, `List[X]`, `Dict[X, Y]`** instead of `X | None`, `list[X]`,
    `dict[X, Y]`.
-6. **Deep inheritance chains or god objects** where composition (`self._x`
+7. **Deep inheritance chains or god objects** where composition (`self._x`
    holding a collaborator) would be simpler and more testable.
-7. **Eager, unnecessary imports of heavy optional dependencies** at module
+8. **Eager, unnecessary imports of heavy optional dependencies** at module
    top-level when a lazy registry (§10) would do.
-8. **`os.path` instead of `pathlib.Path`.**
-9. **One test that asserts five unrelated things** instead of small, named,
-   single-purpose tests.
-10. **A single file quietly absorbing unrelated responsibilities** well past
+9. **`os.path` instead of `pathlib.Path`.**
+10. **One test that asserts five unrelated things** instead of small, named,
+    single-purpose tests.
+11. **A single file quietly absorbing unrelated responsibilities** well past
     the ~500–700 hand-written-logic-line ceiling (§2) instead of being split
     by concept — a `utils.py` that keeps growing is the classic shape of this.
 
@@ -382,6 +391,8 @@ Run this checklist over what you're about to output:
 - [ ] Narrow custom exception(s) instead of bare `ValueError`/`Exception`
       where the caller might reasonably want to catch a specific failure
 - [ ] No unexplained magic numbers — named constant + comment
+- [ ] No `ALL_CAPS`/`SCREAMING_SNAKE_CASE` globals — module-level constants
+      are lowercase `snake_case`, private ones with a leading underscore
 - [ ] `pathlib.Path`, `zip(..., strict=True)`
 - [ ] Multiprocessing workers are module-level, docstringed, return
       `(result, error)` tuples
