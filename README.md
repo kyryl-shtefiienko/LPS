@@ -34,6 +34,7 @@ These skills are shared across assistants; individual workflows may require tool
 | Skill | Purpose |
 | --- | --- |
 | [`checkpoint`](claude/checkpoint/) | Original Claude checkpoint workflow for saving progress and resuming long tasks in a new conversation or model. |
+| [`context-compactor`](claude/context-compactor/) | Archives large or repeated tool output to a file handle, keeps only a compact excerpt in context with exact paged recall, feeds handles into checkpoints, and fuses edits with their narrow follow-up validation. |
 | [`effort-advisor`](claude/effort-advisor/) | Recommends a Claude model and effort level based on the complexity of the current task. |
 | [`git-advanced`](claude/git-advanced/) | Applies safe defaults for git operations that could rewrite history or discard work — rebase, force-push, reset/clean, branch deletion, conflicts, bisect — with explicit what-to-do / what-not-to-do guidance. |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
