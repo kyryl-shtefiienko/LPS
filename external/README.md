@@ -31,6 +31,10 @@ Each source stays under `sources/<owner>/<repository>/` with its upstream path i
 | [obra/superpowers](https://github.com/obra/superpowers) | 14 | `b36e0829c6d0` | ai-behavior-fix-skills.md, materials-science-python-skills-direct.md | LICENSE |
 | [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | 12 | `6d104308c56c` | additional-repositories.md | LICENSE |
 
+## Non-vendored entries
+
+- [`headroomlabs-ai/headroom`](sources/headroomlabs-ai/headroom/) — a usage guide the library owner wrote for the third-party [Headroom](https://github.com/headroomlabs-ai/headroom) tool, relocated here from the personal `common/` collection. Unlike the vendored sources above, its `SKILL.md` is original text, not a copy of an upstream file — no `SKILL.md` exists anywhere in that repo's history — so it is intentionally excluded from `MANIFEST.csv`, `CATALOG-URLS.csv`, and the skill/repo counts above.
+
 ## Use
 
 Review a third-party skill and its upstream license before installing it. Copy only the selected skill directory into the target assistant's skill folder; bulk-installing the whole catalog can create duplicate names, conflicting automatic triggers, and tool assumptions that do not match the host.
