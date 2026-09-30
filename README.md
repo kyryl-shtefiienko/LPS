@@ -2,7 +2,7 @@
 
 > A private collection of reusable skills for ChatGPT, Codex, and Claude that turns recurring workflows into repeatable instructions.
 
-LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. It also keeps third-party skills in a separate, provenance-tracked collection for installation tools. The personal collection covers software testing, repository quality, materials-science conventions, divergent ideation, context compression, model-effort selection, checkpoint handoffs, publication research, and plotting on request.
+LPS keeps personal assistant skills in one versioned repository so they can be reviewed, backed up, and installed on another machine without rebuilding them from chat history. It also keeps third-party skills in a separate, provenance-tracked collection for installation tools. The personal collection covers software testing, repository quality, materials-science conventions, divergent ideation, context compression, publication research, and plotting on request.
 
 ## Contents
 
@@ -15,7 +15,6 @@ These skills are shared across assistants; individual workflows may require tool
 | [`adhd-mode`](common/adhd-mode/) | Generates ideas through separate cognitive frames, then scores, clusters, and deepens the strongest options. |
 | [`dogusariturk-python-style`](common/dogusariturk-python-style/) | Applies Doguhan Sariturk's production Python conventions when writing, reviewing, refactoring, or structuring Python code. |
 | [`github-repo-standards`](common/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
-| [`headroom`](common/headroom/) | Configures and troubleshoots Headroom context compression for Codex, Claude Code, MCP, proxy, Python, and TypeScript workflows. |
 | [`matsci-python-antipatterns`](common/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
 | [`plot-on-request`](common/plot-on-request/) | Creates plots only when explicitly requested, using real data and Python, then saves and presents PNG files. Clearly labeled synthetic examples require an explicit request. |
 | [`research-publications`](common/research-publications/) | Searches Consensus first when finding papers, falls back to scholarly web sources when needed, and converts research PDFs to Markdown with MarkItDown before analysis. |
@@ -25,17 +24,13 @@ These skills are shared across assistants; individual workflows may require tool
 
 | Skill | Purpose |
 | --- | --- |
-| [`chatgpt-effort-advisor`](chatgpt/chatgpt-effort-advisor/) | Recommends a ChatGPT model and thinking level based on task complexity and cost. |
-| [`checkpoint-chatgpt`](chatgpt/checkpoint-chatgpt/) | Preserves goals, decisions, verified results, files, and next steps across conversations, with downloadable-file and text-only handoff options. |
 | [`lps-add-skill-chatgpt`](chatgpt/lps-add-skill-chatgpt/) | Creates, imports, or updates LPS skills from ChatGPT / Codex, with repository-tool and draft-only workflows and authorized publishing. |
 
 ### Claude only
 
 | Skill | Purpose |
 | --- | --- |
-| [`checkpoint`](claude/checkpoint/) | Original Claude checkpoint workflow for saving progress and resuming long tasks in a new conversation or model. |
 | [`context-compactor`](claude/context-compactor/) | Archives large or repeated tool output to a file handle, keeps only a compact excerpt in context with exact paged recall, feeds handles into checkpoints, and fuses edits with their narrow follow-up validation. |
-| [`effort-advisor`](claude/effort-advisor/) | Recommends a Claude model and effort level based on the complexity of the current task. |
 | [`git-advanced`](claude/git-advanced/) | Applies safe defaults for git operations that could rewrite history or discard work — rebase, force-push, reset/clean, branch deletion, conflicts, bisect — with explicit what-to-do / what-not-to-do guidance. |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
 | [`research-harness`](claude/research-harness/) | Drives the research-harness idea-graph CLI interactively — search, fetch, extract, and merge papers into an Obsidian vault (topics nest under a general-topic folder), plus Semantic Scholar discovery and NotebookLM export/query. |
@@ -58,15 +53,16 @@ Third-party skills are stored under [`external/`](external/) and excluded from t
 
 The two catalogs overlap, so their counts should not be added together. The external collection currently contains 129 unique vendored skill packages from 18 upstream repositories. See the [external manifest](external/MANIFEST.csv) and [source inventory](external/README.md) for exact paths and revisions.
 
+[`headroomlabs-ai/headroom`](external/sources/headroomlabs-ai/headroom/) also lives under `external/`, but it is original usage guidance for that third-party tool rather than a vendored copy of an upstream `SKILL.md`, so it is not counted in the totals above and is not listed in the manifest.
+
 Each skill is self-contained. Its `SKILL.md` defines when it should run and how the assistant should apply it; supporting references, examples, scripts, and assets stay beside that file.
 
 ### Workflow requirements
 
 - **Publication research:** Python with `markitdown[pdf]` for PDF conversion. The skill prefers a Consensus connector and explicitly falls back to scholarly web search when that connector is unavailable. Its tool names may need mapping to the host assistant's tools. Image-only pages and figures require PDF rendering or OCR; the referenced `pdf-reading` helper is not bundled in LPS.
 - **Plotting:** A Python environment with matplotlib and file-output support; pandas or NumPy may be needed for the input data. The skill uses prose or tables unless the user requests a plot.
-- **Checkpointing:** File tools support downloadable or persistent checkpoints. The ChatGPT version also supports a copyable Markdown fallback. A new conversation needs the checkpoint and any referenced files it cannot already access.
 
-The Claude checkpoint, publication, and plotting skills retain the supplied source text. The ChatGPT checkpoint is a separate adaptation. Local files are stored as unpacked skill directories; `.skill` archives and duplicate standalone Markdown exports are not needed for installation.
+The publication and plotting skills retain the supplied source text. Local files are stored as unpacked skill directories; `.skill` archives and duplicate standalone Markdown exports are not needed for installation.
 
 ## Install
 
@@ -99,15 +95,12 @@ Restart the relevant app or begin a new conversation after installation so its s
 
 Ask the assistant for a task that matches a skill's description, or name the skill explicitly when you want to force that workflow. Each assistant reads the installed `SKILL.md` and applies its instructions; scripts and templates remain local resources for that skill.
 
-For example, ask ChatGPT Codex to “set up rigorous pytest coverage” to use `rigorous-pytest-suite`, or ask Claude to “check complexity” to use `effort-advisor`.
+For example, ask ChatGPT Codex to “set up rigorous pytest coverage” to use `rigorous-pytest-suite`.
 
 Examples for the new workflows:
 
-- “Use checkpoint-chatgpt to save our progress before I switch conversations.” In Claude, use `checkpoint` instead.
 - “Use research-publications to find papers on precipitation kinetics and compare their methods.”
 - “Use plot-on-request to plot temperature versus time from this CSV and return a PNG.”
-
-To resume, attach the checkpoint and required supporting files, then say: “Continue from the attached checkpoint with the first unfinished step.” For the ChatGPT checkpoint in a regular chat, attach its `SKILL.md` and explicitly ask the assistant to use that workflow; this supplies instructions for that conversation rather than installing it globally.
 
 ## Add or update a skill
 
