@@ -31,9 +31,12 @@ These skills are shared across assistants; individual workflows may require tool
 | Skill | Purpose |
 | --- | --- |
 | [`context-compactor`](claude/context-compactor/) | Archives large or repeated tool output to a file handle, keeps only a compact excerpt in context with exact paged recall, feeds handles into checkpoints, and fuses edits with their narrow follow-up validation. |
+| [`full-paths`](claude/full-paths/) | Always states the complete absolute path for any file created, edited, or referenced, instead of a bare filename. |
 | [`git-advanced`](claude/git-advanced/) | Applies safe defaults for git operations that could rewrite history or discard work — rebase, force-push, reset/clean, branch deletion, conflicts, bisect — with explicit what-to-do / what-not-to-do guidance. |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
 | [`research-harness`](claude/research-harness/) | Drives the research-harness idea-graph CLI interactively — search, fetch, extract, and merge papers into an Obsidian vault (topics nest under a general-topic folder), plus Semantic Scholar discovery and NotebookLM export/query. |
+| [`research-harness-explore`](claude/research-harness-explore/) | Mines the existing research-harness idea graph for new research directions by intersecting two or more concept clusters, proposing candidate topics, and growing the promising ones via the deepen loop. |
+| [`research-harness-run`](claude/research-harness-run/) | Drives a full research-harness pass end-to-end as a black box given just a topic and a depth level, without reading or editing the project's own source or skill. |
 | [`skill-benchmark`](claude/skill-benchmark/) | Statically scores and ranks every installed skill on description quality, tool scoping, staleness, size, and overlap with other skills, printed as a console table. |
 | [`skill-hierarchy`](claude/skill-hierarchy/) | Resolves conflicts between loaded skills by having the more specific skill win on the exact point of disagreement, leaving the general skill in force elsewhere. |
 | [`tencentdb-agent-memory`](claude/tencentdb-agent-memory/) | Reads and writes a local, API-free project-memory store modeled on TencentDB Agent Memory's layered design (persona / scenarios / atomic facts), with Claude performing the distillation directly instead of Docker, a service, or an LLM API key. |
