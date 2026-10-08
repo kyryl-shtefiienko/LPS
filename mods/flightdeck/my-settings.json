@@ -1,0 +1,19 @@
+{
+  "enabledPlugins": {
+    "flightdeck@claude-flightdeck": true
+  },
+  "pluginConfigs": {
+    "flightdeck@claude-flightdeck": {
+      "options": {
+        "motion": "while-active",
+        "moments": true,
+        "matchDescriptions": false,
+        "layout": "auto",
+        "palette": "theme",
+        "openOnStart": true,
+        "statusLine": true,
+        "panels": "main,architect,agents,loops,receipt,log"
+      }
+    }
+  }
+}

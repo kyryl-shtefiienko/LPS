@@ -41,6 +41,10 @@ These skills are shared across assistants; individual workflows may require tool
 | [`skill-hierarchy`](claude/skill-hierarchy/) | Resolves conflicts between loaded skills by having the more specific skill win on the exact point of disagreement, leaving the general skill in force elsewhere. |
 | [`tencentdb-agent-memory`](claude/tencentdb-agent-memory/) | Reads and writes a local, API-free project-memory store modeled on TencentDB Agent Memory's layered design (persona / scenarios / atomic facts), with Claude performing the distillation directly instead of Docker, a service, or an LLM API key. |
 
+### Claude Code mods
+
+[`mods/`](mods/) holds the Claude Code mods I use: my edited versions of `prismantis` and `flightdeck`, plus links to the others.
+
 ### Third-party skills
 
 Third-party skills are stored under [`external/`](external/) and excluded from the personal-skill bulk-install commands. Each entry retains its upstream directory structure, source URL, exact commit, and available license or notice files.
