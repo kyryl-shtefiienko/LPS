@@ -6,7 +6,7 @@ Mods I use in Claude Code, with my edited versions where I changed something. In
 
 | Mod | What I changed |
 | --- | --- |
-| [`prismantis`](prismantis/) (full plugin copy, see [`MODIFICATIONS.md`](prismantis/MODIFICATIONS.md)) | Adds a `▣ png` button on tables and diagrams that saves a PNG and copies the image to the clipboard (not in upstream). |
+| [`prismantis`](prismantis/) (full plugin copy, see [`MODIFICATIONS.md`](prismantis/MODIFICATIONS.md)) | Adds a `▣ png` button on tables and diagrams that copies the image to the clipboard only, no file saved (not in upstream). |
 | [`flightdeck`](flightdeck/) (full plugin copy, see [`MODIFICATIONS.md`](flightdeck/MODIFICATIONS.md)) | Config only: permission gate panel removed. |
 
 ## Other mods (links only)

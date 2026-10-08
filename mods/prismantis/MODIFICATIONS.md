@@ -4,7 +4,7 @@ Upstream: [NahumLitvin/prismantis](https://github.com/NahumLitvin/prismantis) (v
 
 ## PNG button for tables and diagrams
 
-A `▣ png` button next to the copy buttons on tables and mermaid diagrams. It renders the block's text art to a PNG, saves it to `~/Pictures/prismantis/table-<timestamp>.png`, and copies the image to the Windows clipboard.
+A `▣ png` button next to the copy buttons on tables and mermaid diagrams. It renders the block's text art to a PNG, copies the image to the Windows clipboard, and keeps no file (it renders to a temp file and deletes it after the copy; if the copy fails the temp file is kept and its path is shown).
 
 | File | What it does |
 | --- | --- |

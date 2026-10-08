@@ -1,14 +1,15 @@
 diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
---- a/hooks/register.tsx	2026-10-08 09:33:42.452657600 -0500
-+++ b/hooks/register.tsx	2026-10-08 09:33:42.574266400 -0500
-@@ -46,6 +46,25 @@
+--- a/hooks/register.tsx	2026-10-08 10:01:03.098029700 -0500
++++ b/hooks/register.tsx	2026-10-08 10:01:03.185311100 -0500
+@@ -46,6 +46,26 @@
  
  const expandedCalls = new Set<string>()
  
 +const savePng = async ($: EngineInterface, art: string): Promise<string> => {
 +  const home = (await $.env.get('USERPROFILE')) ?? (await $.env.get('HOME')) ?? '.'
 +  const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
-+  const out = `${home}/Pictures/prismantis/table-${stamp}.png`
++  const tmp = (await $.env.get('TEMP')) ?? home
++  const out = `${tmp}/prismantis-${stamp}.png`
 +  const script = `${$.plugin.root}/scripts/text2png.py`
 +  for (const python of ['python', 'py', 'python3']) {
 +    const run = await $.process.run([python, script, out], { stdin: art }).catch(() => undefined)
@@ -19,7 +20,7 @@ diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
 +
 +const copyPngToClipboard = async ($: EngineInterface, path: string): Promise<boolean> => {
 +  const file = path.replace(/\//g, '\\')
-+  const script = `Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $i=[System.Drawing.Image]::FromFile('${file.replace(/'/g, "''")}'); [System.Windows.Forms.Clipboard]::SetImage($i); $i.Dispose()`
++  const script = `Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $f='${file.replace(/'/g, "''")}'; $i=[System.Drawing.Image]::FromFile($f); $b=New-Object System.Drawing.Bitmap($i); $i.Dispose(); [System.Windows.Forms.Clipboard]::SetImage($b); $b.Dispose(); Remove-Item -LiteralPath $f`
 +  const run = await $.process.run(['powershell', '-NoProfile', '-STA', '-Command', script]).catch(() => undefined)
 +  return run?.exitCode === 0
 +}
@@ -27,7 +28,7 @@ diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
  const drawMarkdown = ($: EngineInterface, el: ReturnType<EngineInterface['ui']['resolve']>, style: Style, blocks: ReturnType<typeof parse>, columns: number, reply?: string): RenderElement[] => {
    const { Button } = el
    const copy = (text: string | (() => string), key: string, label = '⧉ copy') =>
-@@ -61,6 +80,19 @@
+@@ -61,6 +81,19 @@
          }}
        />
      ) : null
@@ -39,7 +40,7 @@ diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
 +        label={label}
 +        onPress={() => {
 +          savePng($, typeof text === 'function' ? text() : text)
-+            .then(async path => $.ui.toast((await copyPngToClipboard($, path)) ? `Copied image, saved ${path}` : `Saved ${path} (clipboard copy failed)`))
++            .then(async path => $.ui.toast((await copyPngToClipboard($, path)) ? 'Copied image' : `Clipboard copy failed, image kept at ${path}`))
 +            .catch(() => $.ui.toast('PNG save failed (needs python + pillow)'))
 +        }}
 +      />
@@ -47,7 +48,7 @@ diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
    const drawn: Drawn = new Map()
    if (style.mermaid) {
      for (const [i, block] of blocks.entries()) {
-@@ -69,7 +101,7 @@
+@@ -69,7 +102,7 @@
        if (art !== null && art.split('\n').every(l => width(l) <= columns - 2)) drawn.set(i, { element: boxArt(el, style, art, `b${i}`), art })
      }
    }
@@ -57,8 +58,8 @@ diff -ruN -x vendor -x node_modules a/hooks/register.tsx b/hooks/register.tsx
    return button ? [...elements, <el.Box key="reply" alignSelf="flex-end">{button}</el.Box>] : elements
  }
 diff -ruN -x vendor -x node_modules a/hooks/render.tsx b/hooks/render.tsx
---- a/hooks/render.tsx	2026-10-08 09:33:42.454700100 -0500
-+++ b/hooks/render.tsx	2026-10-08 09:33:42.557139200 -0500
+--- a/hooks/render.tsx	2026-10-08 10:01:03.101027900 -0500
++++ b/hooks/render.tsx	2026-10-08 10:01:03.171411900 -0500
 @@ -468,7 +468,7 @@
  const copySource = (block: Block): string | undefined =>
    block.kind === 'code' ? block.lines.join('\n') : block.kind === 'table' || block.kind === 'list' ? block.raw : block.kind === 'quote' || block.kind === 'alert' ? block.raw.split('\n').map(line => line.replace(/^\s*>\s?/, '')).join('\n') : undefined
@@ -83,7 +84,7 @@ diff -ruN -x vendor -x node_modules a/hooks/render.tsx b/hooks/render.tsx
      if (!button) return element
 diff -ruN -x vendor -x node_modules a/scripts/text2png.py b/scripts/text2png.py
 --- a/scripts/text2png.py	1969-12-31 18:00:00.000000000 -0600
-+++ b/scripts/text2png.py	2026-10-08 09:33:42.587884300 -0500
++++ b/scripts/text2png.py	2026-10-08 10:01:03.197966100 -0500
 @@ -0,0 +1,44 @@
 +"""Render monospace text (stdin) to a PNG: text2png.py OUT.png [BG_HEX] [FG_HEX]."""
 +import sys

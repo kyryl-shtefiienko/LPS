@@ -49,7 +49,8 @@ const expandedCalls = new Set<string>()
 const savePng = async ($: EngineInterface, art: string): Promise<string> => {
   const home = (await $.env.get('USERPROFILE')) ?? (await $.env.get('HOME')) ?? '.'
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
-  const out = `${home}/Pictures/prismantis/table-${stamp}.png`
+  const tmp = (await $.env.get('TEMP')) ?? home
+  const out = `${tmp}/prismantis-${stamp}.png`
   const script = `${$.plugin.root}/scripts/text2png.py`
   for (const python of ['python', 'py', 'python3']) {
     const run = await $.process.run([python, script, out], { stdin: art }).catch(() => undefined)
@@ -60,7 +61,7 @@ const savePng = async ($: EngineInterface, art: string): Promise<string> => {
 
 const copyPngToClipboard = async ($: EngineInterface, path: string): Promise<boolean> => {
   const file = path.replace(/\//g, '\\')
-  const script = `Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $i=[System.Drawing.Image]::FromFile('${file.replace(/'/g, "''")}'); [System.Windows.Forms.Clipboard]::SetImage($i); $i.Dispose()`
+  const script = `Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $f='${file.replace(/'/g, "''")}'; $i=[System.Drawing.Image]::FromFile($f); $b=New-Object System.Drawing.Bitmap($i); $i.Dispose(); [System.Windows.Forms.Clipboard]::SetImage($b); $b.Dispose(); Remove-Item -LiteralPath $f`
   const run = await $.process.run(['powershell', '-NoProfile', '-STA', '-Command', script]).catch(() => undefined)
   return run?.exitCode === 0
 }
@@ -88,7 +89,7 @@ const drawMarkdown = ($: EngineInterface, el: ReturnType<EngineInterface['ui']['
         label={label}
         onPress={() => {
           savePng($, typeof text === 'function' ? text() : text)
-            .then(async path => $.ui.toast((await copyPngToClipboard($, path)) ? `Copied image, saved ${path}` : `Saved ${path} (clipboard copy failed)`))
+            .then(async path => $.ui.toast((await copyPngToClipboard($, path)) ? 'Copied image' : `Clipboard copy failed, image kept at ${path}`))
             .catch(() => $.ui.toast('PNG save failed (needs python + pillow)'))
         }}
       />
