@@ -9,6 +9,12 @@ Mods I use in Claude Code, with my edited versions where I changed something. In
 | [`prismantis`](prismantis/) (full plugin copy, see [`MODIFICATIONS.md`](prismantis/MODIFICATIONS.md)) | Adds a `▣ png` button on tables and diagrams that copies the image to the clipboard only, no file saved (not in upstream). |
 | [`flightdeck`](flightdeck/) (full plugin copy, see [`MODIFICATIONS.md`](flightdeck/MODIFICATIONS.md)) | Config only: permission gate panel removed. |
 
+## Mods I wrote (in this folder)
+
+| Mod | What it does |
+| --- | --- |
+| [`plot-deck`](plot-deck/) (side panel `spop`, commands `/spop` and `/plots`) | Lists plot images from a folder and from paths printed in the chat. Enter copies the image to the clipboard and opens it in the default viewer. Windows only. |
+
 ## Other mods (links only)
 
 From [hamzafer/claude-code-mods](https://github.com/hamzafer/claude-code-mods) (marketplace `claude-code-mods`):

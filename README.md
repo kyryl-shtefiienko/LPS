@@ -33,16 +33,11 @@ These skills are shared across assistants; individual workflows may require tool
 
 Third-party skills are stored under [`external/`](external/) and excluded from the personal-skill bulk-install commands. Each entry retains its upstream directory structure, source URL, exact commit, and available license or notice files.
 
-| Source collection | Skill packages |
+| Upstream repository | Skill packages |
 | --- | ---: |
-| [AI behavior-fix catalog](external/catalogs/ai-behavior-fix-skills.md) | 76 |
-| [Materials-science Python catalog](external/catalogs/materials-science-python-skills-direct.md) | 80 |
-| [RTK](external/sources/rtk-ai/rtk/) | 12 |
-| [Ponytail](external/sources/dietrichgebert/ponytail/) | 6 |
-| [Microsoft Data Formulator](external/sources/microsoft/data-formulator/) | 3 |
-| [Diagram Design](external/sources/cathrynlavery/diagram-design/) | 1 |
-
-The two catalogs overlap, so their counts should not be added together. The external collection currently contains 129 unique vendored skill packages from 18 upstream repositories. See the [external manifest](external/MANIFEST.csv) and [source inventory](external/README.md) for exact paths and revisions.
+| [K-Dense-AI/scientific-agent-skills](external/sources/K-Dense-AI/scientific-agent-skills/) | 4 |
+| [microsoft/data-formulator](external/sources/microsoft/data-formulator/) | 1 |
+| **Total** | **5** |
 
 [`headroomlabs-ai/headroom`](external/sources/headroomlabs-ai/headroom/) also lives under `external/`, but it is original usage guidance for that third-party tool rather than a vendored copy of an upstream `SKILL.md`, so it is not counted in the totals above and is not listed in the manifest.
 
