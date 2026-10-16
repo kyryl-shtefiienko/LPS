@@ -16,6 +16,8 @@ These skills are shared across assistants; individual workflows may require tool
 | [`dogusariturk-python-style`](common/dogusariturk-python-style/) | Applies Doguhan Sariturk's production Python conventions when writing, reviewing, refactoring, or structuring Python code. |
 | [`github-repo-standards`](common/github-repo-standards/) | Scaffolds and audits professional GitHub repositories, documentation, automation, and community files. |
 | [`matsci-python-antipatterns`](common/matsci-python-antipatterns/) | Flags common README and repository mistakes in materials-science Python projects. |
+| [`skill-benchmark`](common/skill-benchmark/) | Statically scores and ranks installed skills on description clarity, tool scoping, staleness, size and trigger overlap, and writes an editable JSON report. |
+| [`skill-hierarchy`](common/skill-hierarchy/) | Resolves conflicts between loaded skills: the more specific skill wins on the exact point of overlap, the general one governs the rest. |
 | [`rigorous-pytest-suite`](common/rigorous-pytest-suite/) | Builds disciplined pytest suites, fixtures, tooling, and matching CI for Python projects. |
 
 ### Claude only
@@ -23,6 +25,8 @@ These skills are shared across assistants; individual workflows may require tool
 | Skill | Purpose |
 | --- | --- |
 | [`lps-add-skill`](claude/lps-add-skill/) | Creates, imports, or updates LPS skills from Claude, maintains the README catalog, and commits or pushes when authorized. |
+| [`full-paths`](claude/full-paths/) | Always states the complete absolute path of every file created, edited or referenced, so it can be opened directly. |
+| [`research-harness-explore`](claude/research-harness-explore/) | Mines an existing research-harness knowledge graph for new directions by intersecting concept clusters already in the vault. |
 | [`research-harness-run`](claude/research-harness-run/) | Drives a full research-harness pass end-to-end as a black box given just a topic and a depth level, without reading or editing the project's own source or skill. |
 
 ### Claude Code mods
@@ -37,7 +41,10 @@ Third-party skills are stored under [`external/`](external/) and excluded from t
 | --- | ---: |
 | [K-Dense-AI/scientific-agent-skills](external/sources/K-Dense-AI/scientific-agent-skills/) | 4 |
 | [microsoft/data-formulator](external/sources/microsoft/data-formulator/) | 1 |
-| **Total** | **5** |
+| [Leonxlnx/unlazy](external/sources/Leonxlnx/unlazy/) | 1 |
+| [nuelcyoung/asd-ste100](external/sources/nuelcyoung/asd-ste100/) | 1 |
+| [safishamsi/graphify](external/sources/safishamsi/graphify/) | 1 |
+| **Total** | **8** |
 
 [`headroomlabs-ai/headroom`](external/sources/headroomlabs-ai/headroom/) also lives under `external/`, but it is original usage guidance for that third-party tool rather than a vendored copy of an upstream `SKILL.md`, so it is not counted in the totals above and is not listed in the manifest.
 

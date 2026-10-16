@@ -2,9 +2,9 @@
 
 Third-party Agent Skills vendored from the supplied source catalogs and explicitly requested repositories in `catalogs/`. These snapshots are kept separate from personal skills and are not installed by the root README's bulk-install commands.
 
-Snapshot date: `2026-09-19`  
-Skill packages: `5`  
-Upstream repositories: `2`
+Snapshot date: `2026-09-19` (three skills added `2026-10-16`)  
+Skill packages: `8`  
+Upstream repositories: `5`
 
 Each source stays under `sources/<owner>/<repository>/` with its upstream path intact. `MANIFEST.csv` records every discovered `SKILL.md`, exact commit, source URL, and originating catalog. Root license and notice files are preserved when present. The upstream license applies to each vendored source; no repository-wide LPS license is implied.
 
@@ -14,6 +14,9 @@ Each source stays under `sources/<owner>/<repository>/` with its upstream path i
 | --- | ---: | --- | --- | --- |
 | [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 4 | `330c8e764435` | ai-behavior-fix-skills.md, materials-science-python-skills-direct.md | LICENSE.md |
 | [microsoft/data-formulator](https://github.com/microsoft/data-formulator) | 1 | `5477f0e23642` | additional-repositories.md | LICENSE |
+| [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy) | 1 | `1667149` | user-installed-2026-10.md | LICENSE |
+| [nuelcyoung/asd-ste100](https://github.com/nuelcyoung/asd-ste100) | 1 | `3fe2ccb` | user-installed-2026-10.md | LICENSE |
+| [safishamsi/graphify](https://github.com/safishamsi/graphify) (`v0.9.91`; only `graphify/skill.md` and `graphify/skills/claude/`) | 1 | `10130e79` | user-installed-2026-10.md | LICENSE, LICENSE-MIT, NOTICE |
 
 The `catalogs/` files are the original, unpruned source lists. On 2026-10-08 the vendored copies of every skill that never appeared in a Claude Code transcript were deleted (124 of 129 manifest rows, including duplicate names); they remain in git history.
 

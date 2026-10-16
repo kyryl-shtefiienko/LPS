@@ -27,6 +27,7 @@ From [hamzafer/claude-code-mods](https://github.com/hamzafer/claude-code-mods) (
 | [`review-watch`](https://github.com/hamzafer/claude-code-mods/tree/main/mods/review-watch) | Live line per running code review, with a toast of findings at the end. |
 | [`md-preview`](https://github.com/hamzafer/claude-code-mods/tree/main/mods/md-preview) | Renders Markdown files Claude edits next to the chat. `/md` opens it. |
 | [`blast-radius`](https://github.com/hamzafer/claude-code-mods/tree/main/mods/blast-radius) | Holds risky Bash commands and shows what they would change first. |
+| [`cache-clock`](https://github.com/hamzafer/claude-code-mods/tree/main/mods/cache-clock) | Prompt-cache line under the status line: time left while warm, hit rate, and tokens the next message re-caches once cold. `/cache-clock setup` adds it. |
 
 Other plugins:
 
@@ -34,5 +35,6 @@ Other plugins:
 | --- | --- |
 | token-optimizer | [alexgreensh/token-optimizer](https://github.com/alexgreensh/token-optimizer) |
 | human-in-the-loop | [tzafrir/human-in-the-loop](https://github.com/tzafrir/human-in-the-loop) |
+| chisle (terse prose, ladder-first code; toggle with `/chisle`) | [JayPokale/Chisle](https://github.com/JayPokale/Chisle) |
 
 Removed: `token-weather`, `mission-control`, `replay-theater`.
