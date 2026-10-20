@@ -36,5 +36,7 @@ Other plugins:
 | token-optimizer | [alexgreensh/token-optimizer](https://github.com/alexgreensh/token-optimizer) |
 | human-in-the-loop | [tzafrir/human-in-the-loop](https://github.com/tzafrir/human-in-the-loop) |
 | chisle (terse prose, ladder-first code; toggle with `/chisle`) | [JayPokale/Chisle](https://github.com/JayPokale/Chisle) |
+| understand-anything (codebase knowledge graph; `/understand`, `/understand-dashboard`; its optional auto-update hook runs only in projects that enable `autoUpdate`) | [Egonex-AI/Understand-Anything](https://github.com/Egonex-AI/Understand-Anything) |
+| agenttrail (not installed; run on demand with `npx agenttrail-kitchen .` for a 3D kitchen view of agent activity, decline its hook prompt; uses GPU while open) | [sodiumsun/agenttrail](https://github.com/sodiumsun/agenttrail) |
 
 Removed: `token-weather`, `mission-control`, `replay-theater`.

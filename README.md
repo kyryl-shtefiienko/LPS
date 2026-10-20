@@ -44,7 +44,9 @@ Third-party skills are stored under [`external/`](external/) and excluded from t
 | [Leonxlnx/unlazy](external/sources/Leonxlnx/unlazy/) | 1 |
 | [nuelcyoung/asd-ste100](external/sources/nuelcyoung/asd-ste100/) | 1 |
 | [safishamsi/graphify](external/sources/safishamsi/graphify/) | 1 |
-| **Total** | **8** |
+| [DietrichGebert/ponytail](external/sources/DietrichGebert/ponytail/) | 6 |
+| [coopersimson96/aar-loop](external/sources/coopersimson96/aar-loop/) | 1 |
+| **Total** | **15** |
 
 [`headroomlabs-ai/headroom`](external/sources/headroomlabs-ai/headroom/) also lives under `external/`, but it is original usage guidance for that third-party tool rather than a vendored copy of an upstream `SKILL.md`, so it is not counted in the totals above and is not listed in the manifest.
 
